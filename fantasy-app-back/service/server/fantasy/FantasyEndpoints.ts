@@ -11,4 +11,12 @@ export class FantasyEndpoints {
         }
     };
 
+    public getTime = (req: Request, res: Response, next: NextFunction) => {
+        try {
+            res.send(new Date());
+        } catch (err) {
+            next(err);
+        }
+    };
+
 }

@@ -68,5 +68,6 @@ export class ExpressServer {
         server.get('/api/statistics/cat', noCache, this.catEndpoints.getCatStatistics)
         server.get('/api/cat/:catId', noCache, this.catEndpoints.getCatDetails)
         server.get('/api/player', noCache, this.fantasyEndpoints.getPlayer);
+        server.get('/api/time', noCache, this.fantasyEndpoints.getTime);
     }
 }

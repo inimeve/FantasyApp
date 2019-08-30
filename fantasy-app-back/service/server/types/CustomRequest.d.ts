@@ -1,11 +1,11 @@
 /* tslint:disable no-namespace */
 import 'express'
-import { CatService } from '../cats/CatService'
-import { FantasyService } from '../fantasy/FantasyService';
+import { FantasyDataService } from '../fantasyData/FantasyDataService';
+import { FantasyAuthService } from '../fantasyAuth/FantasyAuthService'
 
 export interface RequestServices {
-    catService: CatService,
-    fantasyService: FantasyService
+    fantasyDataService: FantasyDataService,
+    fantasyAuthService: FantasyAuthService
 }
 
 declare global {

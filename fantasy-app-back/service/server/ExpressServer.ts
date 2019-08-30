@@ -1,16 +1,16 @@
-import * as express from 'express'
-import { Express } from 'express'
-import { Server } from 'http'
-import * as compress from 'compression'
-import * as bodyParser from 'body-parser'
-import * as cookieParser from 'cookie-parser'
-
-import { noCache } from './middlewares/NoCacheMiddleware'
-import DatadogStatsdMiddleware from './middlewares/DatadogStatsdMiddleware'
-import { CatEndpoints } from './cats/CatEndpoints'
-import { RequestServices } from './types/CustomRequest'
+import * as express from 'express';
+import { Express } from 'express';
+import { Server } from 'http';
+import * as compress from 'compression';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import { Endpoint } from './types/Endpoint';
+import { noCache } from './middlewares/NoCacheMiddleware';
+import { Request } from 'express';
+import { Response } from 'express';
+import { NextFunction } from 'express';
+import { RequestServices } from './Application'
 import { addServicesToRequest } from './middlewares/ServiceDependenciesMiddleware'
-import { FantasyEndpoints } from './fantasy/FantasyEndpoints';
 
 /**
  * Abstraction around the raw Express.js server and Nodes' HTTP server.
@@ -18,44 +18,40 @@ import { FantasyEndpoints } from './fantasy/FantasyEndpoints';
  * middleware chains for application logic, config and everything else.
  */
 export class ExpressServer {
-    private server?: Express
-    private httpServer?: Server
+    private server?: Express;
+    private httpServer?: Server;
 
-    constructor(private catEndpoints: CatEndpoints, private fantasyEndpoints: FantasyEndpoints, private requestServices: RequestServices) {}
+    private pathPrefix: string = '/api';
+
+    private healthPath: string = '/health';
+
+    constructor(private endpoints: Endpoint[], private requestServices: RequestServices) {}
 
     public async setup(port: number) {
-        const server = express()
-        this.setupStandardMiddlewares(server)
-        this.setupTelemetry(server)
-        this.setupServiceDependencies(server)
-        this.configureApiEndpoints(server)
+        const server = express();
+        this.setupStandardMiddlewares(server);
+        this.configureHealthEndpoint(server);
+        this.setupServiceDependencies(server);
+        this.configureEndpoints(server);
 
-        this.httpServer = this.listen(server, port)
+        this.httpServer = this.listen(server, port);
         console.info(`Listening on ${port}`);
-        this.server = server
-        return this.server
+        this.server = server;
+        return this.server;
     }
 
     public listen(server: Express, port: number) {
-        return server.listen(port)
+        return server.listen(port);
     }
 
     public kill() {
-        if (this.httpServer) this.httpServer.close()
+        if (this.httpServer) this.httpServer.close();
     }
 
     private setupStandardMiddlewares(server: Express) {
-        server.use(bodyParser.json())
-        server.use(cookieParser())
-        server.use(compress())
-    }
-
-    private setupTelemetry(server: Express) {
-        DatadogStatsdMiddleware.applyTo(server, {
-            targetHost: 'https://datadog.mycompany.com',
-            enableTelemetry: false,
-            tags: ['team:cats', 'product:cats-provider']
-        })
+        server.use(bodyParser.json());
+        server.use(cookieParser());
+        server.use(compress());
     }
 
     private setupServiceDependencies(server: Express) {
@@ -63,11 +59,22 @@ export class ExpressServer {
         server.use(servicesMiddleware)
     }
 
-    private configureApiEndpoints(server: Express) {
-        server.get('/api/cat', noCache, this.catEndpoints.getAllCats)
-        server.get('/api/statistics/cat', noCache, this.catEndpoints.getCatStatistics)
-        server.get('/api/cat/:catId', noCache, this.catEndpoints.getCatDetails)
-        server.get('/api/player', noCache, this.fantasyEndpoints.getPlayer);
-        server.get('/api/time', noCache, this.fantasyEndpoints.getTime);
+    private configureEndpoints (server: Express) {
+        console.log('Available endpoints:');
+        for(let endpoint of this.endpoints) {
+            console.log(`${this.pathPrefix}${endpoint.path}`);
+            server.get(`${this.pathPrefix}${endpoint.path}`, endpoint.middleware, endpoint.method);
+        }
     }
+
+    private configureHealthEndpoint (server: Express) {
+        server.get(`${this.pathPrefix}${this.healthPath}`, noCache, (req: Request, res: Response, next: NextFunction) => {
+            try {
+                res.send(new Date());
+            } catch (err) {
+                next(err);
+            }
+        })
+    }
+
 }

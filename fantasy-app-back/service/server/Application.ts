@@ -1,10 +1,17 @@
 import { ExpressServer } from './ExpressServer'
-import { CatEndpoints } from './cats/CatEndpoints'
-import { CatService } from './cats/CatService'
-import { CatRepository } from './cats/CatRepository'
-import { FantasyService } from './fantasy/FantasyService';
-import { FantasyRepository } from './fantasy/FantasyRepository';
-import { FantasyEndpoints } from './fantasy/FantasyEndpoints';
+import { FantasyDataEndpoints } from './fantasyData/FantasyDataEndpoints';
+import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints'
+import { Endpoint } from './types/Endpoint'
+import { FantasyDataRepository } from './fantasyData/FantasyDataRepository'
+import { FantasyDataService } from './fantasyData/FantasyDataService'
+import { FantasyAuthService } from './fantasyAuth/FantasyAuthService'
+import { FantasyAuthSupplier } from './fantasyAuth/FantasyAuthSupplier'
+
+
+export interface RequestServices {
+    fantasyDataService: FantasyDataService,
+    fantasyAuthService: FantasyAuthService
+}
 
 /**
  * Wrapper around the Node process, ExpressServer abstraction and complex dependencies such as services that ExpressServer needs.
@@ -12,16 +19,19 @@ import { FantasyEndpoints } from './fantasy/FantasyEndpoints';
  */
 export class Application {
     public static async createApplication() {
-        const catService = new CatService(new CatRepository());
-        const fantasyService = new FantasyService(new FantasyRepository());
-        const requestServices = { catService, fantasyService }
-        const expressServer = new ExpressServer(new CatEndpoints(), new FantasyEndpoints(), requestServices)
+        const fantasyDataService: FantasyDataService = new FantasyDataService(new FantasyDataRepository());
+        const fantasyAuthService: FantasyAuthService = new FantasyAuthService(new FantasyAuthSupplier());
+
+        const requestServices: RequestServices = {fantasyDataService, fantasyAuthService};
+        const endpoints: Endpoint[] = [...new FantasyDataEndpoints().endpoints, ...new FantasyAuthEndpoints().endpoints];
+
+        const expressServer = new ExpressServer(endpoints, requestServices);
 
         const PORT: any = process.env.PORT ||3000;
         await expressServer.setup(PORT);
-        Application.handleExit(expressServer)
+        Application.handleExit(expressServer);
 
-        return expressServer
+        return expressServer;
     }
 
     private static handleExit(express: ExpressServer) {

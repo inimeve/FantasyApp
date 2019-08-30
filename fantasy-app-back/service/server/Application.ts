@@ -17,7 +17,8 @@ export class Application {
         const requestServices = { catService, fantasyService }
         const expressServer = new ExpressServer(new CatEndpoints(), new FantasyEndpoints(), requestServices)
 
-        await expressServer.setup(8000)
+        const PORT: any = process.env.PORT ||3000;
+        await expressServer.setup(PORT);
         Application.handleExit(expressServer)
 
         return expressServer

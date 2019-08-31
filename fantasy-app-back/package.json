@@ -8,7 +8,7 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npm run build && node dist/index.js",
+    "start": "node dist/index.js",
     "dev": "nodemon service/server/index.ts",
     "debug": "node --inspect-brk --require ts-node/register service/server/index.ts",
     "build": "tsc",

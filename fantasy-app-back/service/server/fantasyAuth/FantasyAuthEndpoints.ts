@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { noCache } from '../middlewares/NoCacheMiddleware';
 import { Endpoint } from '../types/Endpoint';
+import { ServiceInjector } from '../utils/ServiceInjector'
+import { FantasyAuthService } from './FantasyAuthService'
 
 export class FantasyAuthEndpoints {
 
@@ -8,8 +10,11 @@ export class FantasyAuthEndpoints {
 
     public endpoints: Endpoint[];
 
-    constructor() {
+    constructor(private fantasyAuthService: FantasyAuthService) {
         this.endpoints = this.configEndpoints();
+
+        const injector: ServiceInjector = ServiceInjector.getInstance();
+        this.fantasyAuthService = injector.getService(FantasyAuthService);
     }
 
     public configEndpoints (): Endpoint[] {
@@ -23,7 +28,7 @@ export class FantasyAuthEndpoints {
         try {
             const refreshToken: string = req.query.rf;
 
-            req.services.fantasyAuthService.refreshAccessToken(refreshToken)
+            this.fantasyAuthService.refreshAccessToken(refreshToken)
                 .then((data: any) => res.json(data));
         } catch (err) {
             next(err);
@@ -32,7 +37,7 @@ export class FantasyAuthEndpoints {
 
     public getRefreshToken = (req: Request, res: Response, next: NextFunction) => {
         try {
-            res.send(req.services.fantasyAuthService.getRefreshToken());
+            res.send(this.fantasyAuthService.getRefreshToken());
         } catch (err) {
             next(err);
         }

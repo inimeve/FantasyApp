@@ -2,9 +2,14 @@ import { FantasyDataRepository } from './FantasyDataRepository';
 
 export class FantasyDataService {
 
-    constructor(private fantasyRepository: FantasyDataRepository) {}
+    public count: number = 0;
+
+    constructor(private fantasyRepository: FantasyDataRepository) {
+        this.fantasyRepository = new FantasyDataRepository();
+    }
 
     public getPlayer(playerId: number): any {
+        this.count++;
         return this.fantasyRepository.getPlayer(playerId);
     }
 

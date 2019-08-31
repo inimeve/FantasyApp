@@ -5,7 +5,9 @@ export class FantasyAuthService {
     private access_token: string = '';
     private refresh_token: string = '';
 
-    constructor(private fantasyAuthSupplier: FantasyAuthSupplier) {}
+    constructor(private fantasyAuthSupplier: FantasyAuthSupplier) {
+        this.fantasyAuthSupplier = new FantasyAuthSupplier();
+    }
 
     public refreshAccessToken(refreshToken: string) {
         return this.fantasyAuthSupplier.refreshAccessToken(refreshToken)

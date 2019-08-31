@@ -1,17 +1,9 @@
-import { ExpressServer } from './ExpressServer'
+import { ExpressServer } from './ExpressServer';
 import { FantasyDataEndpoints } from './fantasyData/FantasyDataEndpoints';
-import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints'
-import { Endpoint } from './types/Endpoint'
-import { FantasyDataRepository } from './fantasyData/FantasyDataRepository'
-import { FantasyDataService } from './fantasyData/FantasyDataService'
-import { FantasyAuthService } from './fantasyAuth/FantasyAuthService'
-import { FantasyAuthSupplier } from './fantasyAuth/FantasyAuthSupplier'
-
-
-export interface RequestServices {
-    fantasyDataService: FantasyDataService,
-    fantasyAuthService: FantasyAuthService
-}
+import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints';
+import { FantasyDataService } from './fantasyData/FantasyDataService';
+import { FantasyAuthService } from './fantasyAuth/FantasyAuthService';
+import { ServiceInjector } from './utils/ServiceInjector';
 
 /**
  * Wrapper around the Node process, ExpressServer abstraction and complex dependencies such as services that ExpressServer needs.
@@ -19,13 +11,13 @@ export interface RequestServices {
  */
 export class Application {
     public static async createApplication() {
-        const fantasyDataService: FantasyDataService = new FantasyDataService(new FantasyDataRepository());
-        const fantasyAuthService: FantasyAuthService = new FantasyAuthService(new FantasyAuthSupplier());
+        const injector: ServiceInjector = ServiceInjector.getInstance();
+        injector.registerService(FantasyAuthService);
+        injector.registerService(FantasyDataService);
 
-        const requestServices: RequestServices = {fantasyDataService, fantasyAuthService};
-        const endpoints: Endpoint[] = [...new FantasyDataEndpoints().endpoints, ...new FantasyAuthEndpoints().endpoints];
-
-        const expressServer = new ExpressServer(endpoints, requestServices);
+        const expressServer = new ExpressServer();
+        expressServer.registerResourceEndpoints(FantasyAuthEndpoints);
+        expressServer.registerResourceEndpoints(FantasyDataEndpoints);
 
         const PORT: any = process.env.PORT ||3000;
         await expressServer.setup(PORT);

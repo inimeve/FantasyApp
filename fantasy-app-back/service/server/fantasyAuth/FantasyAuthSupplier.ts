@@ -1,8 +1,10 @@
-import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import Axios, { AxiosRequestConfig } from 'axios'
 
 export class FantasyAuthSupplier {
 
-    public refreshAccessToken(refreshToken: string): Promise<any> {
+    public getTokens(refreshToken: string): Promise<any> {
+        if(!refreshToken) return Promise.reject({message: 'Refresh token needed'});
+
         const requestConfig: AxiosRequestConfig = {
             method: 'POST',
             url: 'https://api.laligafantasymarca.com/login/v3/refresh-token',
@@ -13,20 +15,8 @@ export class FantasyAuthSupplier {
         }
 
         return Axios(requestConfig)
-            .then((response: AxiosResponse) => {
-                if( response.status == 200 ||
-                    response.status == 201 ||
-                    response.status == 202 ||
-                    response.status == 203 ||
-                    response.status == 204) {
-                    return response;
-                } else {
-                    Promise.reject(response);
-                }
-            })
-            .catch((error: AxiosError) => {
-                return Promise.reject(error.response || error.code);
-            });
+            .then(response => response.data)
+            .catch(error => error);
     }
 
 }

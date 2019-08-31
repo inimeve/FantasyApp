@@ -19,28 +19,21 @@ export class FantasyAuthEndpoints {
 
     public configEndpoints (): Endpoint[] {
         return [
-            { path: `${this.resourcePath}/refresh`, method: this.refreshAccessToken, middleware: [noCache]},
-            { path: `${this.resourcePath}/get`, method: this.getRefreshToken, middleware: [noCache]}
+            { method: 'POST', path: `${this.resourcePath}/getTokens`, serviceMethod: this.getTokens, middleware: [noCache]}
         ]
     };
 
-    public refreshAccessToken = (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const refreshToken: string = req.query.rf;
+    public getTokens = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const refreshToken: any = this.fantasyAuthService.getAuthHeader(req);
 
-            this.fantasyAuthService.refreshAccessToken(refreshToken)
-                .then((data: any) => res.json(data));
+            this.fantasyAuthService.getTokens(refreshToken)
+                .then(data => res.json(data))
+                .catch(err => res.send(err));
+
         } catch (err) {
             next(err);
         }
-    };
-
-    public getRefreshToken = (req: Request, res: Response, next: NextFunction) => {
-        try {
-            res.send(this.fantasyAuthService.getRefreshToken());
-        } catch (err) {
-            next(err);
-        }
-    };
+    }
 
 }

@@ -3,27 +3,25 @@ import { noCache } from '../middlewares/NoCacheMiddleware';
 import { Endpoint } from '../types/Endpoint'
 import { FantasyDataService } from './FantasyDataService'
 import { ServiceInjector } from '../utils/ServiceInjector'
-import { FantasyAuthService } from '../fantasyAuth/FantasyAuthService'
 
 export class FantasyDataEndpoints {
 
-    private resourcePath: string = '/fantasyData';
+    private resourcePath: string = '/fantasy';
 
     public endpoints: Endpoint[];
 
-    constructor(private fantasyDataService: FantasyDataService, private fantasyAuthService: FantasyAuthService) {
+    constructor(private fantasyDataService: FantasyDataService) {
         this.endpoints = this.configEndpoints();
 
         const injector: ServiceInjector = ServiceInjector.getInstance();
         this.fantasyDataService = injector.getService(FantasyDataService);
-        this.fantasyAuthService= injector.getService(FantasyAuthService);
     }
 
     public configEndpoints (): Endpoint[] {
         return [
-            { path: `${this.resourcePath}/player/:playerId`, method: this.getPlayer, middleware: [noCache]},
-            { path: `${this.resourcePath}/ranking/:leagueId`, method: this.getRankingData, middleware: [noCache]}
-        ]
+            { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayer, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/players/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/ranking/:leagueId`, serviceMethod: this.getRankingData, middleware: [noCache]},        ]
     };
 
     public getPlayer = async (req: Request, res: Response, next: NextFunction) => {
@@ -47,17 +45,29 @@ export class FantasyDataEndpoints {
         }
     };
 
+    public getPlayersInLeague = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const leagueId: string = req.params.leagueId;
+            const accessToken: string = req.headers.authorization || '';
+
+            this.fantasyDataService.getPlayersInLeague(leagueId, accessToken)
+                .then((playersData: any) => res.json(playersData))
+                .catch(err => res.send(err));
+
+        } catch (err) {
+            next(err);
+        }
+    }
+
     public getRankingData = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const leagueId: string = req.params.leagueId;
-            const accessToken: string = this.fantasyAuthService.getAccessToken();
+            const accessToken: string = req.headers.authorization || '';
 
-            if (accessToken) {
-                this.fantasyDataService.getRankingData(leagueId, accessToken)
-                    .then((data: any) => res.json(data));
-            } else {
-                res.json({error: 'No access token setted'});
-            }
+            this.fantasyDataService.getRankingData(leagueId, accessToken)
+                .then((rankingData: any) => res.json(rankingData))
+                .catch(err => res.send(err));
+
         } catch (err) {
             next(err);
         }

@@ -1,9 +1,9 @@
 import { ExpressServer } from './ExpressServer';
 import { FantasyDataEndpoints } from './fantasyData/FantasyDataEndpoints';
-import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints';
 import { FantasyDataService } from './fantasyData/FantasyDataService';
-import { FantasyAuthService } from './fantasyAuth/FantasyAuthService';
 import { ServiceInjector } from './utils/ServiceInjector';
+import { FantasyAuthService } from './fantasyAuth/FantasyAuthService'
+import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints'
 
 /**
  * Wrapper around the Node process, ExpressServer abstraction and complex dependencies such as services that ExpressServer needs.
@@ -12,12 +12,12 @@ import { ServiceInjector } from './utils/ServiceInjector';
 export class Application {
     public static async createApplication() {
         const injector: ServiceInjector = ServiceInjector.getInstance();
-        injector.registerService(FantasyAuthService);
         injector.registerService(FantasyDataService);
+        injector.registerService(FantasyAuthService);
 
         const expressServer = new ExpressServer();
-        expressServer.registerResourceEndpoints(FantasyAuthEndpoints);
         expressServer.registerResourceEndpoints(FantasyDataEndpoints);
+        expressServer.registerResourceEndpoints(FantasyAuthEndpoints);
 
         const PORT: any = process.env.PORT ||3000;
         await expressServer.setup(PORT);

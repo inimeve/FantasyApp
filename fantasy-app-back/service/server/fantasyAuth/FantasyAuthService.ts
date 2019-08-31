@@ -1,34 +1,18 @@
 import { FantasyAuthSupplier } from './FantasyAuthSupplier'
+import { Request } from 'express'
 
 export class FantasyAuthService {
-
-    private access_token: string = '';
-    private refresh_token: string = '';
 
     constructor(private fantasyAuthSupplier: FantasyAuthSupplier) {
         this.fantasyAuthSupplier = new FantasyAuthSupplier();
     }
 
-    public refreshAccessToken(refreshToken: string) {
-        return this.fantasyAuthSupplier.refreshAccessToken(refreshToken)
-            .then(response => {
-                if (response.data && response.data.access_token && response.data.refresh_token) {
-                    this.access_token = response.data.access_token;
-                    this.refresh_token = response.data.refresh_token;
-                }
-                return response.data;
-            })
-            .catch(err => {
-                return err;
-            });
+    public getTokens(refreshToken: string) {
+        return this.fantasyAuthSupplier.getTokens(refreshToken);
     }
 
-    public getRefreshToken(): string {
-        return `Token: ${this.access_token}`;
-    }
-
-    public getAccessToken(): string {
-        return this.access_token;
+    public getAuthHeader(request: Request): string {
+        return request.headers.authorization || '';
     }
 
 }

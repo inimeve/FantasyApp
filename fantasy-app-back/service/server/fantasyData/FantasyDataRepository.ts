@@ -1,5 +1,5 @@
-import fetch, { Headers } from 'node-fetch';
-import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import fetch from 'node-fetch';
+import Axios, { AxiosRequestConfig } from 'axios'
 
 export class FantasyDataRepository {
 
@@ -10,7 +10,25 @@ export class FantasyDataRepository {
             })
     }
 
+    public getAllPlayersInLeague(leagueId: string, accessToken: string): Promise<any> {
+        if(!accessToken) return Promise.reject({message: 'Access token needed'});
+
+        const requestConfig: AxiosRequestConfig = {
+            method: 'GET',
+            url: `https://api.laligafantasymarca.com/api/v3/players/league/${leagueId}`,
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }
+
+        return Axios(requestConfig)
+            .then(response => response.data)
+            .catch(error => error);
+    }
+
     public getRankingData(leagueId: string, accessToken: string): Promise<any> {
+        if(!accessToken) return Promise.reject({message: 'Access token needed'});
+
         const requestConfig: AxiosRequestConfig = {
             method: 'GET',
             url: `https://api.laligafantasymarca.com/api/v4/leagues/${leagueId}/ranking`,
@@ -20,7 +38,7 @@ export class FantasyDataRepository {
         }
 
         return Axios(requestConfig)
-            .then((response) => response.data)
+            .then(response => response.data)
             .catch(error => error);
     }
 

@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "npm start --prefix fantasy-app-back"
+    "start": "cd fantasy-app-back && npm run start"
   }
 }

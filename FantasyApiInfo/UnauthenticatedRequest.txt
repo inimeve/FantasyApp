@@ -1,0 +1,76 @@
+Unauthenticated Request:
+    getAllUsers
+        get(Na.apiUrl + "/api/v3/user/count", {
+            withCredentials: !1
+    getTime
+        get(Na.apiUrl + "/api/v3/time", {
+            withCredentials: !1
+    getGuestTokenMicrosoft
+        get(Na.apiUrl + "/dsp/v3/token", {
+            withCredentials: !1
+    getTeamsMaster
+        get(Na.apiUrl + "/api/v3/teams-master", {
+            withCredentials: !1
+    getRivalLineUpGlobal
+        get(Na.apiUrl + "/api/v3/teams/" + n + "/lineup", {
+            withCredentials: !1
+    getLineUpByWeekLeague
+        get(Na.apiUrl + "/api/v3/teams/" + n + "/lineup/week/" + t, {
+            withCredentials: !1
+    getRegions
+        get(Na.apiUrl + "/api/v3/regions", {
+            withCredentials: !1
+    getRegionById
+        get(Na.apiUrl + "/api/v3/regions/" + n, {
+            withCredentials: !1
+    getCurrentWeek
+        get(Na.apiUrl + "/api/v3/week/current", {
+            withCredentials: !1
+    getSeasonTeam
+        get(Na.apiUrl + "/api/v3/player/team/" + n, {
+            withCredentials: !1
+    getAllPlayers
+        get(Na.apiUrl + "/api/v3/players", {
+            withCredentials: !1
+    getPlayer
+        get(Na.apiUrl + "/api/v3/player/" + n, {
+            withCredentials: !1
+    getMarketValue
+        get(Na.apiUrl + "/api/v3/player/" + n + "/market-value", {
+            withCredentials: !1
+    getTotalLeagues
+        get(Na.apiUrl + "/api/v3/leagues/count", {
+            withCredentials: !1
+    getSponsors
+        get(Na.apiUrl + "/api/v3/sponsors", {
+            withCredentials: !1
+    getMandatoryChecksForSponsorBroadcaster
+        get(Na.apiUrl + "/api/v4/sponsor/broadcaster/checks", {
+            withCredentials: !1
+    getGlobalRanking
+        get(Na.apiUrl + "/api/v3/ranking/global", {
+            withCredentials: !1
+    getGlobalRankingByWeek
+        get(Na.apiUrl + "/api/v3/ranking/week/" + n + "/global", {
+            withCredentials: !1
+    getGlobalRankingByMonth
+        get(Na.apiUrl + "/api/v3/ranking/global/month/" + n, {
+            withCredentials: !1
+    getSponsorRanking
+        get(Na.apiUrl + "/api/v3/ranking/" + n, {
+            withCredentials: !1
+    getSponsorRankingByWeek
+        get(Na.apiUrl + "/api/v3/ranking/week/" + t + "/" + n, {
+            withCredentials: !1
+    getSponsorRankingByMonth
+        get(Na.apiUrl + "/api/v3/ranking/" + n + "/month/" + t, {
+            withCredentials: !1
+    getMatchesByWeek
+        get(Na.apiUrl + "/api/v3/calendar", {
+            withCredentials: !1
+    getMatchesBySeasonTeam
+        get(Na.apiUrl + "/api/v3/calendar/team/" + n, {
+            withCredentials: !1
+    getYoutubeVideosFromPlaylist
+        get(Na.videoApi + "/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + Na.section.videos.broadcasterVideoPlaylist + "&key=" + Na.section.videos.youtubeApiKey, {
+            withCredentials: !1

@@ -1,0 +1,187 @@
+Authenticated Request:
+    getUser
+        get(Na.apiUrl + "/api/v3/user/me", {
+            withCredentials: !0
+    updateUser
+        put(Na.apiUrl + "/api/v3/user/me", JSON.stringify(n), {
+            withCredentials: !0
+    setRegionByCountryCode
+        post(Na.apiUrl + "/api/v3/user/region-by-country", n, {
+            withCredentials: !0
+    changeUserRegion
+        put(Na.apiUrl + "/api/v3/user/region/" + n, null, {
+            withCredentials: !0
+    registerGuestMicrosoft
+        post(Na.microsoftUrlDSP + "/api/v1/guests?idClient=" + n, t, {
+            withCredentials: !0
+    verifyIfNecesaryConvertGuestMicrosoft
+        get(Na.microsoftUrlDSP + "/api/v1/guests/" + n.guestId, {
+            withCredentials: !0
+    convertGuestMicrosoft
+        put(Na.microsoftUrlDSP + "/api/v1/fan/me/ConvertGuest?idClient=" + n + "&idGuest=" + t.guestId, null, {
+            withCredentials: !0
+    getAcceptedVersionPolicies
+        get(Na.microsoftUrlDSP + "/api/v1/fan/me/policies?clientId=" + n + "&policyName=PrivacyPolicy", {
+            withCredentials: !0
+    getPolicyVersion
+        get(Na.microsoftUrlDSP + "/api/v1/resources/" + n + "?resourceFileType=PrivacyPolicy_" + t, {
+            withCredentials: !0
+    getPolicyFileByVersion
+        get(Na.microsoftUrlDSP + "/api/v1/resources/" + n + "/" + t.Major + "/" + t.Minor + "?resourceFileType=PrivacyPolicy_" + e, {
+            withCredentials: !0
+    getAllConsentLaLiga
+        get(Na.microsoftUrlDSP + "/api/v1/consents?language=" + n.Language, {
+            withCredentials: !0
+    getAllConsentFantasy
+        get(Na.microsoftUrlDSP + "/api/v1/consents?language=" + n + "&clientId=" + t, {
+            withCredentials: !0
+    getAllConsentLaLigaFromUser
+        get(Na.microsoftUrlDSP + "/api/v1/fan/me/consents", {
+            withCredentials: !0
+    getAllConsentFantasyFromUser
+        get(Na.microsoftUrlDSP + "/api/v1/fan/me/consents?clientId=" + n, {
+            withCredentials: !0
+    updatePolicy
+        post(Na.microsoftUrlDSP + "/api/v1/fan/me/policies?clientId=" + n + "&policyName=PrivacyPolicy", t, {
+            withCredentials: !0
+    updateConsents
+        post(Na.microsoftUrlDSP + "/api/v1/fan/me/consents", n, {
+            withCredentials: !0
+    updateConsentGuestMicrosoft
+        get(Na.microsoftUrlDSP + "/api/v1/guests/" + n.guestId + "/consents", {
+            withCredentials: !0
+    getFanMicrosoft
+        get(Na.microsoftUrlDSP + "/api/v1/fan/me", {
+            withCredentials: !0
+    getFavouriteTeam
+        get(Na.microsoftUrlDSP + "/api/v1/fan/me/Preferences/Teams?sport=football", {
+            withCredentials: !0
+    updateFanMicrosoft
+        put(Na.microsoftUrlDSP + "/api/v1/fan/me", n, {
+            withCredentials: !0
+    emailVerificationMicrosoft
+        post(Na.microsoftUrlDSP + "/api/v1/fan/me/EmailVerification?appId=" + Na.clientId, null, {
+            withCredentials: !0
+    updateFavouriteTeamMicrosoft
+        post(Na.microsoftUrlDSP + "/api/v1/fan/me/Preferences/Teams/All/football", n, {
+            withCredentials: !0
+
+        put(Na.microsoftUrlDSP + "/api/v1/fan/me/Avatar", t, {
+            withCredentials: !0
+    checkAliasIsAvalible
+        get(Na.microsoftUrlDSP + "/api/v1/fan/CheckAlias?alias=" + n, {
+            withCredentials: !0
+    getTeamInLeague
+        get(Na.apiUrl + "/api/v3/leagues/" + n + "/teams/" + t, {
+            withCredentials: !0
+    getTeamMoneyInLeague
+        get(Na.apiUrl + "/api/v3/teams/" + n + "/money", {
+            withCredentials: !0
+    getTeamLineUp
+        get(Na.apiUrl + "/api/v3/teams/" + n + "/lineup", {
+            withCredentials: !0
+    putTeamLineUp
+        put(Na.apiUrl + "/api/v3/teams/" + n.teamId + "/lineup", n.playerFormation, {
+            withCredentials: !0
+    solveComplaintTeam
+        post(Na.apiUrl + "/api/v3/teams/" + n + "/report/resolve", t, {
+            withCredentials: !0
+    getTrendingCountries
+        get(Na.apiUrl + "/api/v3/countries", {
+            withCredentials: !0
+    getCurrentLeague
+        get(Na.apiUrl + "/api/v3/leagues/" + n, {
+            withCredentials: !0
+    getRankingLeague
+        get(Na.apiUrl + "/api/v4/leagues/" + n + "/ranking", {
+            withCredentials: !0
+    getRankingLeagueByWeek
+        get(Na.apiUrl + "/api/v3/leagues/" + n + "/ranking/" + t, {
+            withCredentials: !0
+    duplicateLeague
+        post(Na.apiUrl + "/api/v3/leagues/" + n + "/duplicate", null, {
+            withCredentials: !0
+    getAllPlayersInLeague
+        get(Na.apiUrl + "/api/v3/players/league/" + n, {
+            withCredentials: !0
+    getBestPlayers
+        get(Na.apiUrl + "/stats/v1/players/on-fire", {
+            withCredentials: !0
+    getMvp
+        get(Na.apiUrl + "/stats/v1/players/mvp", {
+            withCredentials: !0
+    getActivitiesLeague
+        get(Na.apiUrl + "/api/v3/leagues/" + n + "/news/" + t, {
+            withCredentials: !0
+    getRisesDrops
+        get(Na.apiUrl + "/stats/v1/market/evolution/" + n, {
+            withCredentials: !0
+    getMarketInfo
+        get(Na.apiUrl + "/api/v3/league/" + n + "/market/info", {
+            withCredentials: !0
+    getMarket
+        get(Na.apiUrl + "/api/v3/league/" + n + "/market", {
+            withCredentials: !0
+    getMarketHistory
+        get(Na.apiUrl + "/api/v3/league/" + n + "/market/history", {
+            withCredentials: !0
+    removePlayerMarket
+        delete(Na.apiUrl + "/api/v3/league/" + n.leagueId + "/market/" + n.marketPlayerId + "/delete", {
+            withCredentials: !0
+    removeBidForPlayer
+        delete(Na.apiUrl + "/api/v3/league/" + n.leagueId + "/market/" + n.marketPlayerId + "/bid/" + n.bidId + "/cancel", {
+            withCredentials: !0
+    getOfferForPlayer
+        get(Na.apiUrl + "/api/v3/league/" + n.leagueId + "/market/" + n.marketPlayerId + "/offer", {
+            withCredentials: !0
+    rejectOfferForPlayer
+        post(Na.apiUrl + "/api/v3/league/" + n.leagueId + "/market/" + n.marketPlayerId + "/offer/" + n.offerId + "/reject", null, {
+            withCredentials: !0
+    acceptOfferForPlayer
+        post(Na.apiUrl + "/api/v3/league/" + n.leagueId + "/market/" + n.marketPlayerId + "/offer/" + n.offerId + "/accept", null, {
+            withCredentials: !0
+    removeOfferForPlayer
+        delete(Na.apiUrl + "/api/v3/league/" + n.leagueId + "/market/" + n.marketPlayerId + "/offer/" + n.offerId + "/cancel", {
+            withCredentials: !0
+    getLeagues
+        get(Na.apiUrl + "/api/v4/leagues", {
+            withCredentials: !0
+    joinLeagueByToken
+        put(Na.apiUrl + "/api/v4/leagues/" + n + "/users/me", n, {
+            withCredentials: !0
+    joinPublicLeague
+        post(Na.apiUrl + "/api/v4/leagues-public/" + n + "/me", null, {
+            withCredentials: !0
+    leaveLeague
+        delete(Na.apiUrl + "/api/v3/leagues/" + n + "/me", {
+            withCredentials: !0
+    joinLeagueByTokenValidation
+        get(Na.apiUrl + "/api/v4/league-type/token/" + n, {
+            withCredentials: !0
+    getLeagueTypes
+        get(Na.apiUrl + "/api/v4/leagues-types", {
+            withCredentials: !0
+    setSponsorMandatoryChecks
+        post(Na.apiUrl + "/api/v3/sponsor/" + n + "/checks/set", t, {
+            withCredentials: !0
+    getMandatoryChecksBySponsor
+        get(Na.apiUrl + "/api/v4/sponsor/" + n + "/checks", {
+            withCredentials: !0
+    getMatchesStatsByWeek
+        get(Na.apiUrl + "/stats/v1/stats/week/" + n, {
+            withCredentials: !0
+    getAbsences
+        get(Na.apiUrl + "/stats/v1/players/status", {
+            withCredentials: !0
+    getDivisions
+        get(Na.apiUrl + "/api/v4/division/month-progress", {
+            withCredentials: !0
+    getIdealTeam
+        get(Na.apiUrl + "/stats/v1/lineup/ideal/" + n, {
+            withCredentials: !0
+    getProfitableTeam
+        get(Na.apiUrl + "/stats/v1/lineup/profitable/" + n, {
+            withCredentials: !0
+    getSeasonSummary
+        get(Na.apiUrl + "/stats/v1/players/status", {
+            withCredentials: !0

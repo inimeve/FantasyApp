@@ -1,0 +1,10 @@
+Endpoints:
+    domainUrl: "https://www.laligafantasymarca.com",
+    assetsUrl: "https://assets.laligafantasymarca.com",
+    zendeskApi: "https://laligafantasy.zendesk.com",
+    videoApi: "https://www.googleapis.com/youtube",
+    apiUrl: "https://api.laligafantasymarca.com",
+    microsoftUrlDSP: "https://pr-api.laliga.es",
+    microsoftUrlApiIdentity: "https://pr-apiidentity.laliga.es",
+    microsoftUrlB2C: "https://login.laliga.es",
+    microsoftUrlCdn: "https://ll1prglcdn.azureedge.net",

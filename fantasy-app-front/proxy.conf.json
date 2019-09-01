@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://fantasy-app-back.herokuapp.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

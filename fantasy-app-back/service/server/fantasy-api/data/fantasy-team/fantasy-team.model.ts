@@ -3,7 +3,7 @@ import { FantasyManager } from '../fantasy-manager/fantasy-manager.model'
 export class FantasyTeam {
 
     constructor (
-        public id: number,
+        public id: string,
         public teamValue: number,
         public teamPoints: number,
         public manager: FantasyManager,

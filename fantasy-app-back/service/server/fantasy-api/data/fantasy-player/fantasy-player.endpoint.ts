@@ -6,7 +6,7 @@ import { ServiceInjector } from '../../../utils/ServiceInjector'
 
 export class FantasyPlayerEndpoint {
 
-    private resourcePath: string = '/player';
+    private resourcePath: string = '/players';
 
     public endpoints: Endpoint[];
 
@@ -19,8 +19,11 @@ export class FantasyPlayerEndpoint {
 
     public configEndpoints (): Endpoint[] {
         return [
-            { method: 'GET', path: `${this.resourcePath}/:playerId`, serviceMethod: this.getPlayer, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayer, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/league/:leagueId/:teamId`, serviceMethod: this.getTeamPlayers, middleware: [noCache]},
+            // { method: 'GET', path: `${this.resourcePath}/getAllPlayers/league/:leagueId`, serviceMethod: this.getAllPlayersData, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/all/league/:leagueId`, serviceMethod: this.getAllPlayersData, middleware: [noCache]},
         ];
     };
 
@@ -51,6 +54,35 @@ export class FantasyPlayerEndpoint {
             const accessToken: string = req.headers.authorization || '';
 
             this.fantasyDataService.getPlayersInLeague(leagueId, accessToken)
+                .then((playersData: any) => res.json(playersData))
+                .catch(err => res.send(err));
+
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    public getTeamPlayers = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const leagueId: string = req.params.leagueId;
+            const teamId: string = req.params.teamId;
+            const accessToken: string = req.headers.authorization || '';
+
+            this.fantasyDataService.getTeamPlayers(leagueId, teamId, accessToken)
+                .then((playersData: any) => res.json(playersData))
+                .catch(err => res.send(err));
+
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    public getAllPlayersData = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const leagueId: string = req.params.leagueId;
+            const accessToken: string = req.headers.authorization || '';
+
+            this.fantasyDataService.getAllPlayersData(leagueId, accessToken)
                 .then((playersData: any) => res.json(playersData))
                 .catch(err => res.send(err));
 

@@ -1,27 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
-import { noCache } from '../middlewares/NoCacheMiddleware';
-import { Endpoint } from '../types/Endpoint'
-import { FantasyDataService } from './FantasyDataService'
-import { ServiceInjector } from '../utils/ServiceInjector'
+import { noCache } from '../../../middlewares/NoCacheMiddleware';
+import { Endpoint } from '../../../types/Endpoint'
+import { FantasyPlayerService } from './fantasy-player.service'
+import { ServiceInjector } from '../../../utils/ServiceInjector'
 
-export class FantasyDataEndpoints {
+export class FantasyPlayerEndpoint {
 
-    private resourcePath: string = '/fantasy';
+    private resourcePath: string = '/player';
 
     public endpoints: Endpoint[];
 
-    constructor(private fantasyDataService: FantasyDataService) {
+    constructor(private fantasyDataService: FantasyPlayerService) {
         this.endpoints = this.configEndpoints();
 
         const injector: ServiceInjector = ServiceInjector.getInstance();
-        this.fantasyDataService = injector.getService(FantasyDataService);
+        this.fantasyDataService = injector.getService(FantasyPlayerService);
     }
 
     public configEndpoints (): Endpoint[] {
         return [
-            { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayer, middleware: [noCache]},
-            { method: 'GET', path: `${this.resourcePath}/players/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
-            { method: 'GET', path: `${this.resourcePath}/ranking/:leagueId`, serviceMethod: this.getRankingData, middleware: [noCache]},        ]
+            { method: 'GET', path: `${this.resourcePath}/:playerId`, serviceMethod: this.getPlayer, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/league/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
+        ];
     };
 
     public getPlayer = async (req: Request, res: Response, next: NextFunction) => {
@@ -58,19 +58,5 @@ export class FantasyDataEndpoints {
             next(err);
         }
     }
-
-    public getRankingData = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const leagueId: string = req.params.leagueId;
-            const accessToken: string = req.headers.authorization || '';
-
-            this.fantasyDataService.getRankingData(leagueId, accessToken)
-                .then((rankingData: any) => res.json(rankingData))
-                .catch(err => res.send(err));
-
-        } catch (err) {
-            next(err);
-        }
-    };
 
 }

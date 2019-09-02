@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { noCache } from '../middlewares/NoCacheMiddleware';
-import { Endpoint } from '../types/Endpoint';
-import { ServiceInjector } from '../utils/ServiceInjector'
+import { noCache } from '../../middlewares/NoCacheMiddleware';
+import { Endpoint } from '../../types/Endpoint';
+import { ServiceInjector } from '../../utils/ServiceInjector'
 import { FantasyAuthService } from './FantasyAuthService'
 
 export class FantasyAuthEndpoints {

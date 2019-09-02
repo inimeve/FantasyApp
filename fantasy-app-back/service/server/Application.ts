@@ -1,9 +1,15 @@
 import { ExpressServer } from './ExpressServer';
-import { FantasyDataEndpoints } from './fantasyData/FantasyDataEndpoints';
-import { FantasyDataService } from './fantasyData/FantasyDataService';
+import { FantasyPlayerEndpoint } from './fantasy-api/data/fantasy-player/fantasy-player.endpoint';
+import { FantasyPlayerService } from './fantasy-api/data/fantasy-player/fantasy-player.service';
 import { ServiceInjector } from './utils/ServiceInjector';
-import { FantasyAuthService } from './fantasyAuth/FantasyAuthService'
-import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints'
+import { FantasyAuthService } from './fantasy-api/auth/FantasyAuthService'
+import { FantasyAuthEndpoints } from './fantasy-api/auth/FantasyAuthEndpoints'
+import { FantasyTeamService } from './fantasy-api/data/fantasy-team/fantasy-team.service'
+import { FantasyTeamEndpoints } from './fantasy-api/data/fantasy-team/fantasy-team.endpoints'
+import { FantasyManagerService } from './fantasy-api/data/fantasy-manager/fantasy-manager.service';
+import { FantasyManagerEndpoints } from './fantasy-api/data/fantasy-manager/fantasy-manager.endpoint';
+import { FantasyLeagueService } from './fantasy-api/data/fantasy-league/fantasy-league.service';
+import { FantasyLeagueEndpoints } from './fantasy-api/data/fantasy-league/fantasy-league.endpoint';
 
 /**
  * Wrapper around the Node process, ExpressServer abstraction and complex dependencies such as services that ExpressServer needs.
@@ -12,12 +18,18 @@ import { FantasyAuthEndpoints } from './fantasyAuth/FantasyAuthEndpoints'
 export class Application {
     public static async createApplication() {
         const injector: ServiceInjector = ServiceInjector.getInstance();
-        injector.registerService(FantasyDataService);
+        injector.registerService(FantasyPlayerService);
+        injector.registerService(FantasyTeamService);
         injector.registerService(FantasyAuthService);
+        injector.registerService(FantasyManagerService);
+        injector.registerService(FantasyLeagueService);
 
         const expressServer = new ExpressServer();
-        expressServer.registerResourceEndpoints(FantasyDataEndpoints);
+        expressServer.registerResourceEndpoints(FantasyPlayerEndpoint);
+        expressServer.registerResourceEndpoints(FantasyTeamEndpoints);
         expressServer.registerResourceEndpoints(FantasyAuthEndpoints);
+        expressServer.registerResourceEndpoints(FantasyManagerEndpoints);
+        expressServer.registerResourceEndpoints(FantasyLeagueEndpoints);
 
         const PORT: any = process.env.PORT ||3000;
         await expressServer.setup(PORT);

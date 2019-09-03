@@ -3,7 +3,9 @@ import { Request } from 'express'
 
 export class FantasyAuthService {
 
-    constructor(private fantasyAuthSupplier: FantasyAuthSupplier) {
+    private fantasyAuthSupplier: FantasyAuthSupplier;
+
+    constructor() {
         this.fantasyAuthSupplier = new FantasyAuthSupplier();
     }
 

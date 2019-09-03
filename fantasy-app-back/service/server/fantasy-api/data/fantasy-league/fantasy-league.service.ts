@@ -3,7 +3,9 @@ import { FantasyLeague } from './fantasy-league.model';
 
 export class FantasyLeagueService {
 
-    constructor(private fantasyLeagueRepository: FantasyLeagueSupplier) {
+    private fantasyLeagueRepository: FantasyLeagueSupplier;
+
+    constructor() {
         this.fantasyLeagueRepository = new FantasyLeagueSupplier();
     }
 

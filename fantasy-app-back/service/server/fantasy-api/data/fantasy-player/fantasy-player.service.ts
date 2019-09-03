@@ -1,40 +1,39 @@
 import { FantasyPlayerSupplier } from './fantasy-player.supplier';
 import { FantasyPlayer } from './fantasy-player.model';
-import { ServiceInjector } from '../../../utils/ServiceInjector';
 import { FantasyTeamService } from '../fantasy-team/fantasy-team.service';
 import { FantasyTeam } from '../fantasy-team/fantasy-team.model';
 
 export class FantasyPlayerService {
 
-    constructor(private fantasyPlayerRepository: FantasyPlayerSupplier) {
-        this.fantasyPlayerRepository = new FantasyPlayerSupplier();
+    private fantasyPlayerSupplier: FantasyPlayerSupplier;
 
-        // const injector: ServiceInjector = ServiceInjector.getInstance();
-        // this.fantasyTeamService = injector.getService(FantasyTeamService);
+    private fantasyTeamService: FantasyTeamService;
+
+    constructor() {
+        this.fantasyPlayerSupplier = new FantasyPlayerSupplier();
+
+        this.fantasyTeamService = new FantasyTeamService();
     }
 
     public getPlayer(playerId: number): Promise<FantasyPlayer> {
-        return this.fantasyPlayerRepository.getPlayer(playerId);
+        return this.fantasyPlayerSupplier.getPlayer(playerId);
     }
 
     public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayer[]> {
-        return this.fantasyPlayerRepository.getAllPlayersInLeague(leagueId, accessToken);
+        return this.fantasyPlayerSupplier.getAllPlayersInLeague(leagueId, accessToken);
     }
 
     public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayer[]> {
-        return this.fantasyPlayerRepository.getTeamPlayers(leagueId, teamId, accessToken);
+        return this.fantasyPlayerSupplier.getTeamPlayers(leagueId, teamId, accessToken);
     }
 
     public getAllPlayersData(leagueId: string, accessToken: string): Promise<FantasyPlayer[]> {
-        const injector: ServiceInjector = ServiceInjector.getInstance();
-        const fantasyTeamService: FantasyTeamService = injector.getService(FantasyTeamService);
-
-        const teamPlayerDataPromise: Promise<FantasyPlayer[]> = fantasyTeamService.getRankingData(leagueId, accessToken)
+        const teamPlayerDataPromise: Promise<FantasyPlayer[]> = this.fantasyTeamService.getRankingData(leagueId, accessToken)
             .then((rankingData: FantasyTeam[]) => {
                 const teamsPlayersPromises: Promise<FantasyPlayer[]>[] = [];
 
                 for(let team of rankingData) {
-                    let teamPlayersPromise: Promise<FantasyPlayer[]> = this.fantasyPlayerRepository.getTeamPlayers(leagueId, team.id, accessToken);
+                    let teamPlayersPromise: Promise<FantasyPlayer[]> = this.fantasyPlayerSupplier.getTeamPlayers(leagueId, team.id, accessToken);
                     teamsPlayersPromises.push(teamPlayersPromise);
                 }
 
@@ -51,7 +50,7 @@ export class FantasyPlayerService {
                     });
             });
 
-        const playersInLeaguePromise: Promise<FantasyPlayer[]> = this.fantasyPlayerRepository.getAllPlayersInLeague(leagueId, accessToken)
+        const playersInLeaguePromise: Promise<FantasyPlayer[]> = this.fantasyPlayerSupplier.getAllPlayersInLeague(leagueId, accessToken)
             .then((playersData: FantasyPlayer[]) => playersData);
 
         return Promise.all([teamPlayerDataPromise, playersInLeaguePromise])

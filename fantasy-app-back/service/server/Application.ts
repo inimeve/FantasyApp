@@ -1,14 +1,8 @@
 import { ExpressServer } from './ExpressServer';
 import { FantasyPlayerEndpoint } from './fantasy-api/data/fantasy-player/fantasy-player.endpoint';
-import { FantasyPlayerService } from './fantasy-api/data/fantasy-player/fantasy-player.service';
-import { ServiceInjector } from './utils/ServiceInjector';
-import { FantasyAuthService } from './fantasy-api/auth/FantasyAuthService'
-import { FantasyAuthEndpoints } from './fantasy-api/auth/FantasyAuthEndpoints'
-import { FantasyTeamService } from './fantasy-api/data/fantasy-team/fantasy-team.service'
-import { FantasyTeamEndpoints } from './fantasy-api/data/fantasy-team/fantasy-team.endpoints'
-import { FantasyManagerService } from './fantasy-api/data/fantasy-manager/fantasy-manager.service';
+import { FantasyAuthEndpoints } from './fantasy-api/auth/FantasyAuthEndpoints';
+import { FantasyTeamEndpoints } from './fantasy-api/data/fantasy-team/fantasy-team.endpoints';
 import { FantasyManagerEndpoints } from './fantasy-api/data/fantasy-manager/fantasy-manager.endpoint';
-import { FantasyLeagueService } from './fantasy-api/data/fantasy-league/fantasy-league.service';
 import { FantasyLeagueEndpoints } from './fantasy-api/data/fantasy-league/fantasy-league.endpoint';
 
 /**
@@ -17,13 +11,6 @@ import { FantasyLeagueEndpoints } from './fantasy-api/data/fantasy-league/fantas
  */
 export class Application {
     public static async createApplication() {
-        const injector: ServiceInjector = ServiceInjector.getInstance();
-        injector.registerService(FantasyPlayerService);
-        injector.registerService(FantasyTeamService);
-        injector.registerService(FantasyAuthService);
-        injector.registerService(FantasyManagerService);
-        injector.registerService(FantasyLeagueService);
-
         const expressServer = new ExpressServer();
         expressServer.registerResourceEndpoints(FantasyPlayerEndpoint);
         expressServer.registerResourceEndpoints(FantasyTeamEndpoints);

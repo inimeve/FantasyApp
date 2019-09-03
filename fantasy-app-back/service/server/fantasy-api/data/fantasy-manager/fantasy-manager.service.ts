@@ -3,7 +3,9 @@ import { FantasyManager } from './fantasy-manager.model'
 
 export class FantasyManagerService {
 
-    constructor(private fantasyManagerRepository: FantasyManagerSupplier) {
+    private fantasyManagerRepository: FantasyManagerSupplier;
+
+    constructor() {
         this.fantasyManagerRepository = new FantasyManagerSupplier();
     }
 

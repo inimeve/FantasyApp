@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { noCache } from '../../../middlewares/NoCacheMiddleware';
-import { Endpoint } from '../../../types/Endpoint'
-import { FantasyPlayerService } from './fantasy-player.service'
-import { ServiceInjector } from '../../../utils/ServiceInjector'
+import { Endpoint } from '../../../types/Endpoint';
+import { FantasyPlayerService } from './fantasy-player.service';
 
 export class FantasyPlayerEndpoint {
 
@@ -10,11 +9,12 @@ export class FantasyPlayerEndpoint {
 
     public endpoints: Endpoint[];
 
-    constructor(private fantasyDataService: FantasyPlayerService) {
+    private fantasyDataService: FantasyPlayerService
+
+    constructor() {
         this.endpoints = this.configEndpoints();
 
-        const injector: ServiceInjector = ServiceInjector.getInstance();
-        this.fantasyDataService = injector.getService(FantasyPlayerService);
+        this.fantasyDataService = new FantasyPlayerService();
     }
 
     public configEndpoints (): Endpoint[] {

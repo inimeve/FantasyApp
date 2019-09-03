@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { noCache } from '../../middlewares/NoCacheMiddleware';
 import { Endpoint } from '../../types/Endpoint';
-import { ServiceInjector } from '../../utils/ServiceInjector'
-import { FantasyAuthService } from './FantasyAuthService'
+import { FantasyAuthService } from './FantasyAuthService';
 
 export class FantasyAuthEndpoints {
 
@@ -10,11 +9,12 @@ export class FantasyAuthEndpoints {
 
     public endpoints: Endpoint[];
 
-    constructor(private fantasyAuthService: FantasyAuthService) {
+    private fantasyAuthService: FantasyAuthService
+
+    constructor() {
         this.endpoints = this.configEndpoints();
 
-        const injector: ServiceInjector = ServiceInjector.getInstance();
-        this.fantasyAuthService = injector.getService(FantasyAuthService);
+        this.fantasyAuthService = new FantasyAuthService();
     }
 
     public configEndpoints (): Endpoint[] {

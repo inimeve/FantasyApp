@@ -2,6 +2,9 @@ export class ServiceInjector {
 
     private static instance: ServiceInjector;
 
+    // Service registry {serviceName, serviceArgs}
+    // Construct and save instace in service get
+    
     private _di: any = {};
 
     private constructor(){}

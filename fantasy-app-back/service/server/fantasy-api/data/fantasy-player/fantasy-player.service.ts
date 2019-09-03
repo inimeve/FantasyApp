@@ -61,7 +61,7 @@ export class FantasyPlayerService {
 
                 playersInLeague = playersInLeague.map(player => {
                     for(let teamPlayer of teamsPlayerData) {
-                        if(player.id = teamPlayer.id) player = {...player, ...teamPlayer};
+                        if(player.id == teamPlayer.id) player = {...player, ...teamPlayer};
                     }
                     return player;
                 });

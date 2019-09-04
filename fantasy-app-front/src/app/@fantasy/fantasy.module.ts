@@ -6,7 +6,7 @@ import {FantasyPlayerData} from './api/fantasy-players/fantasy-players';
 import {FantasyPlayerService} from './api/fantasy-players/fantasy-players.service';
 import {FantasyTokenService} from './auth/fantasy-token.service';
 import {FantasyStuffComponent} from './components/fantasy-stuff/fantasy-stuff.component';
-import {AuthGuard} from './auth/fantasy-login/auth-guard.service';
+import {AuthGuard} from './auth/route-guards/auth-guard.service';
 
 const NB_MODULES = [
 ];

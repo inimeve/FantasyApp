@@ -8,10 +8,13 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import {AuthGuard} from './@fantasy/auth/route-guards/auth-guard.service';
+import {FantasyLoginComponent} from './@fantasy/auth/fantasy-login/fantasy-login/fantasy-login.component';
 
 const routes: Routes = [
   {
     path: 'pages',
+    canActivate: [AuthGuard],
     loadChildren: () => import('app/pages/pages.module')
       .then(m => m.PagesModule),
   },
@@ -55,7 +58,7 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'fantasy-login/login', pathMatch: 'full' },
+  { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
 

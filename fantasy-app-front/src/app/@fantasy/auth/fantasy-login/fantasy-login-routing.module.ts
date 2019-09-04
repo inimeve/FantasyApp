@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {FantasyLoginComponent} from './fantasy-login.component';
+import {FantasyLoginComponent} from './fantasy-login/fantasy-login.component';
 import {NbAuthComponent} from '@nebular/auth';
 
 export const routes: Routes = [

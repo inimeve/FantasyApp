@@ -120,7 +120,6 @@ export const NB_CORE_PROVIDERS = [
     forms: {
       login: {
         strategy: 'email',
-        redirectDelay: 2000,
         showMessages: {
           success: true,
           error: true,

@@ -5,15 +5,15 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
-import {AuthGuard} from '../@fantasy/auth/fantasy-login/auth-guard.service';
+import {AuthGuard} from '../@fantasy/auth/route-guards/auth-guard.service';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
+  canActivate: [AuthGuard],
   children: [
     {
       path: 'dashboard',
-      canActivate: [AuthGuard],
       component: ECommerceComponent,
     },
     {
@@ -75,11 +75,6 @@ const routes: Routes = [{
       loadChildren: () => import('./miscellaneous/miscellaneous.module')
         .then(m => m.MiscellaneousModule),
     },
-    // {
-    //   path: 'fantasy',
-    //   loadChildren: () => import('app/@fantasy/ui/token-auth/token-auth.module')
-    //     .then(m => m.TokenAuthModule),
-    // },
     {
       path: '',
       redirectTo: 'dashboard',

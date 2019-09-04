@@ -23,6 +23,7 @@ export class FantasyLoginComponent extends NbLoginComponent {
 
       if (result.isSuccess()) {
         this.messages = result.getMessages();
+        localStorage.setItem('refresh_token', result.getResponse().body.refresh_token);
       } else {
         this.errors = result.getErrors();
       }

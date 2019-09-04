@@ -6,6 +6,7 @@ import {FantasyPlayerData} from './api/fantasy-players/fantasy-players';
 import {FantasyPlayerService} from './api/fantasy-players/fantasy-players.service';
 import {FantasyTokenService} from './auth/fantasy-token.service';
 import {FantasyStuffComponent} from './components/fantasy-stuff/fantasy-stuff.component';
+import {AuthGuard} from './auth/fantasy-login/auth-guard.service';
 
 const NB_MODULES = [
 ];
@@ -20,6 +21,7 @@ const API = [
 const SERVICES = [
   { provide: FantasyPlayerData, useClass: FantasyPlayerService },
   { provide: FantasyTokenService, useClass: FantasyTokenService },
+  { provide: AuthGuard, useClass: AuthGuard},
 ];
 
 

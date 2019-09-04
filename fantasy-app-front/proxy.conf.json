@@ -1,6 +1,6 @@
 {
   "/api/auth/getTokens": {
-    "target": "http://localhost:3000",
+    "target": "https://fantasy-app-back.herokuapp.com",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FantasyUser, FantasyUserAdapter} from './fantasy-user.model';
-import {FantasyTokenService} from '../fantasy-token.service';
+import {FantasyTokenService} from '../../auth/fantasy-token.service';
 
 @Injectable()
 export class FantasyPlayersApi {

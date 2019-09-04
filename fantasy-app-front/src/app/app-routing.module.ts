@@ -21,6 +21,11 @@ const routes: Routes = [
       .then(m => m.FantasyRoutesModule),
   },
   {
+    path: 'fantasy-login',
+    loadChildren: () => import('app/@fantasy/auth/fantasy-login/fantasy-login.module')
+      .then(m => m.FantasyLoginModule),
+  },
+  {
     path: 'auth',
     component: NbAuthComponent,
     children: [
@@ -50,7 +55,7 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
+  { path: '', redirectTo: 'fantasy-login/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
 

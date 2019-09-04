@@ -1,10 +1,10 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {FantasyPlayersApi} from './fantasy-players/fantasy-players.api';
-import {FantasyPlayerData} from './fantasy-players/fantasy-players';
-import {FantasyPlayerService} from './fantasy-players/fantasy-players.service';
-import {FantasyTokenService} from './fantasy-token.service';
+import {FantasyPlayersApi} from './api/fantasy-players/fantasy-players.api';
+import {FantasyPlayerData} from './api/fantasy-players/fantasy-players';
+import {FantasyPlayerService} from './api/fantasy-players/fantasy-players.service';
+import {FantasyTokenService} from './auth/fantasy-token.service';
 import {FantasyStuffComponent} from './components/fantasy-stuff/fantasy-stuff.component';
 
 const NB_MODULES = [

@@ -29,9 +29,9 @@ export class ExpressServer {
 
     public async setup(port: number) {
         const server = express();
+        this.setupStandardMiddlewares(server);
         this.configureEndpoints(server);
         this.configureHealthEndpoint(server);
-        this.setupStandardMiddlewares(server);
 
         this.httpServer = this.listen(server, port);
         console.info(`Listening on ${port}`);
@@ -49,6 +49,7 @@ export class ExpressServer {
 
     private setupStandardMiddlewares(server: Express) {
         server.use(bodyParser.json());
+        server.use(bodyParser.urlencoded({ extended: false }));
         server.use(cookieParser());
         server.use(compress());
     }

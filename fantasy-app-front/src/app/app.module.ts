@@ -20,7 +20,7 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import {FantasyBackendModule} from './@fantasy/fantasy-backend.module';
+import {FantasyBackendModule} from './@fantasy/api/fantasy-backend.module';
 import {FantasyModule} from './@fantasy/fantasy.module';
 
 @NgModule({

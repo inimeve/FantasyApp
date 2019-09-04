@@ -15,7 +15,7 @@ export class FantasyPlayerSupplier {
                 if (response.status == 200 && response.data) {
                     return Promise.resolve(FantasyPlayerAdapter.adapt(response.data));
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + typeof this + 'getPlayer): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + response.status});
                 }
             })
             .catch(error => error);
@@ -37,7 +37,7 @@ export class FantasyPlayerSupplier {
                 if (response.status == 200 && response.data) {
                     return Promise.resolve(response.data.map((item: any) => FantasyPlayerAdapter.adapt(item)));
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + typeof this + 'getAllPlayersInLeague): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getAllPlayersInLeague): code -> ' + response.status});
                 }
             })
             .catch(error => error);
@@ -74,7 +74,7 @@ export class FantasyPlayerSupplier {
 
                     return Promise.resolve(teamData);
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + typeof this + 'getAllPlayersInLeague): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getAllPlayersInLeague): code -> ' + response.status});
                 }
             })
             .catch(error => error);

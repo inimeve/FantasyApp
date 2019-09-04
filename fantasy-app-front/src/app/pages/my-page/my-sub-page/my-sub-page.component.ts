@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FantasyPlayerData} from '../../../@fantasy/fantasy-players/fantasy-players';
-import {FantasyTokenService} from '../../../@fantasy/fantasy-token.service';
+import {FantasyPlayerData} from '../../../@fantasy/api/fantasy-players/fantasy-players';
+import {FantasyTokenService} from '../../../@fantasy/auth/fantasy-token.service';
 
 @Component({
   selector: 'ngx-my-sub-page',

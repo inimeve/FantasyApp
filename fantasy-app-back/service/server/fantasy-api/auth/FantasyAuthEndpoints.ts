@@ -25,11 +25,15 @@ export class FantasyAuthEndpoints {
 
     public getTokens = async (req: Request, res: Response, next: NextFunction) => {
         try{
-            const refreshToken: any = this.fantasyAuthService.getAuthHeader(req);
+            const refreshToken: any = req.body.refresh_token;
 
             this.fantasyAuthService.getTokens(refreshToken)
-                .then(data => res.json(data))
-                .catch(err => res.send(err));
+                .then((tokenData: any) => {
+                    res.json(tokenData);
+                })
+                .catch((err: any) => {
+                    res.status(400).send(err);
+                });
 
         } catch (err) {
             next(err);

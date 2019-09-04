@@ -5,7 +5,7 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import {FantasyTokenService} from '../../../@fantasy/fantasy-token.service';
+import {FantasyTokenService} from '../../../@fantasy/auth/fantasy-token.service';
 
 @Component({
   selector: 'ngx-header',

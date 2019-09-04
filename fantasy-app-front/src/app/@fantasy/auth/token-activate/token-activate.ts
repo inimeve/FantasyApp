@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {FantasyTokenService} from '../../fantasy-token.service';
+import {FantasyTokenService} from '../fantasy-token.service';
 
 @Injectable()
 export class TokenActivate implements CanActivate {

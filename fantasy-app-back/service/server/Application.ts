@@ -1,6 +1,6 @@
 import { ExpressServer } from './ExpressServer';
 import { FantasyPlayerEndpoint } from './fantasy-api/data/fantasy-player/fantasy-player.endpoint';
-import { FantasyAuthEndpoints } from './fantasy-api/auth/FantasyAuthEndpoints';
+import { FantasyAuthEndpoints } from './fantasy-api/auth/fantasy-auth-endpoints';
 import { FantasyTeamEndpoints } from './fantasy-api/data/fantasy-team/fantasy-team.endpoints';
 import { FantasyManagerEndpoints } from './fantasy-api/data/fantasy-manager/fantasy-manager.endpoint';
 import { FantasyLeagueEndpoints } from './fantasy-api/data/fantasy-league/fantasy-league.endpoint';

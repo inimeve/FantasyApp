@@ -17,7 +17,7 @@ export class FantasyAuthSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data && response.data.refresh_token) {
-                    return Promise.resolve(response.data);
+                    return Promise.resolve({token: response.data});
                 } else {
                     return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.login): code -> ' + response.status});
                 }

@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NbAuthModule, NbDummyAuthStrategy, NbPasswordAuthStrategy} from '@nebular/auth';
+import {NbAuthModule, NbAuthOAuth2JWTToken, NbDummyAuthStrategy, NbPasswordAuthStrategy} from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -108,8 +108,16 @@ export const NB_CORE_PROVIDERS = [
       NbPasswordAuthStrategy.setup({
         name: 'email',
         baseEndpoint: '/api/auth/',
+        token: {
+          // key: 'access_token',
+          // getter: (module: any, response: any, options: any) => {
+          //   return {access_token: response.body.access_token, refresh_token: response.body.refresh_token};
+          // },
+          class: NbAuthOAuth2JWTToken,
+          key: 'token',
+        },
         login: {
-          endpoint: 'getTokens',
+          endpoint: 'login',
           redirect: {
             success: '/dashboard/',
             failure: null,
@@ -128,8 +136,8 @@ export const NB_CORE_PROVIDERS = [
       validation: {
         refresh_token: {
           required: true,
-          minLength: 1200,
-          maxLength: 1400,
+          // minLength: 1200,
+          // maxLength: 1400,
         },
       },
     },

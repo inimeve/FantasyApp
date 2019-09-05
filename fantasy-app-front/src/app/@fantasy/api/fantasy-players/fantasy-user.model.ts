@@ -19,8 +19,8 @@ export class FantasyUserAdapter implements  Adapter<FantasyUser> {
 
   adapt(item: any): FantasyUser {
     return new FantasyUser(
-      item.team.manager.id,
-      item.team.manager.managerName,
+      item.id,
+      item.manager.managerName,
       item.position,
       item.points,
       item.team.teamPoints,

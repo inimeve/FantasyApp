@@ -4,27 +4,36 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FantasyUser, FantasyUserAdapter} from './fantasy-user.model';
-import {FantasyTokenService} from '../../auth/fantasy-token.service';
+import {FantasyPlayer} from './fantasy-players';
+import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
 
 @Injectable()
 export class FantasyPlayersApi {
 
-  private readonly apiUrl: string = 'http://localhost:4200/api/fantasy';
+  private readonly apiUrl: string = 'http://localhost:4200/api/';
 
   private readonly resourcePath: string = 'fantasy';
 
-  constructor(private http: HttpClient, private fantasyTokenService: FantasyTokenService, private fantasyUserAdapter: FantasyUserAdapter) {}
+  token: any;
 
-  getAll(): Observable<any> {
+  constructor(private http: HttpClient, private fantasyUserAdapter: FantasyUserAdapter, private authService: NbAuthService) {
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+        if (token.isValid()) {
+          this.token = token.getPayload();
+        }
+      });
+  }
+
+  getAll(): Observable<FantasyPlayer[]> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': this.fantasyTokenService.getToken(),
+        'Authorization': this.token ? this.token.access_token : '',
       }),
     };
 
-    // return this.http.get(`http://localhost:4200/api/fantasy/players/01174211`, httpOptions)
-    return this.http.get(this.apiUrl + '/players/01174211', httpOptions)
-      .pipe(map(data => {
+    return this.http.get(this.apiUrl + '/players/all/league/01174211', httpOptions)
+      .pipe(map((data: FantasyPlayer[]) => {
         return data;
       }));
   }
@@ -32,12 +41,11 @@ export class FantasyPlayersApi {
   getRankingLeague(): Observable<FantasyUser[]> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': this.fantasyTokenService.getToken(),
+        'Authorization': this.token ? this.token.access_token : '',
       }),
     };
 
-    // return this.http.get(`http://localhost:4200/api/fantasy/players/01174211`, httpOptions)
-    return this.http.get(this.apiUrl + '/ranking/01174211', httpOptions)
+    return this.http.get(this.apiUrl + '/team/01174211', httpOptions)
       .pipe(map((data: any[]) => {
         return data.map(item => this.fantasyUserAdapter.adapt(item));
       }));

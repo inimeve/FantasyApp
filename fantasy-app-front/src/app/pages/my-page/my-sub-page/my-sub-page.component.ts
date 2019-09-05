@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FantasyPlayerData} from '../../../@fantasy/api/fantasy-players/fantasy-players';
-import {FantasyTokenService} from '../../../@fantasy/auth/fantasy-token.service';
 
 @Component({
   selector: 'ngx-my-sub-page',
@@ -69,20 +68,9 @@ export class MySubPageComponent implements OnInit {
 
   tokenInput: string;
 
-  constructor(private fantasyPlayersService: FantasyPlayerData, private fantasyTokenService: FantasyTokenService) { }
+  constructor(private fantasyPlayersService: FantasyPlayerData) { }
 
   ngOnInit() {
-    const token: string = this.fantasyTokenService.getToken();
-    if (token) {
-      this.tokenInput = this.fantasyTokenService.getToken();
-      this.setData();
-    }
-  }
-
-  public setTokenInLocalStorage() {
-    this.fantasyTokenService.setToken(this.tokenInput);
-
-    this.setData();
   }
 
   public setData() {
@@ -91,11 +79,11 @@ export class MySubPageComponent implements OnInit {
         console.log(data);
         this.data = data;
       });
-    this.fantasyPlayersService.getRankingLeague()
-      .subscribe(data => {
-        console.log(data);
-        this.rankingData = data;
-      });
+    // this.fantasyPlayersService.getRankingLeague()
+    //   .subscribe(data => {
+    //     console.log(data);
+    //     this.rankingData = data;
+    //   });
   }
 
 }

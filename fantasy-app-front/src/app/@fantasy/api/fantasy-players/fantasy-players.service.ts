@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import {FantasyPlayersApi} from './fantasy-players.api';
-import {FantasyPlayerData} from './fantasy-players';
+import {FantasyPlayer, FantasyPlayerData} from './fantasy-players';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class FantasyPlayerService extends FantasyPlayerData {
@@ -10,11 +11,11 @@ export class FantasyPlayerService extends FantasyPlayerData {
     super();
   }
 
-  getAll() {
+  getAll(): Observable<FantasyPlayer[]> {
     return this.playersApi.getAll();
   }
 
-  getRankingLeague() {
+  getRankingLeague(): Observable<any> {
     return this.playersApi.getRankingLeague();
   }
 

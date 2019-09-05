@@ -5,7 +5,6 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import {FantasyTokenService} from '../../../@fantasy/auth/fantasy-token.service';
 
 @Component({
   selector: 'ngx-header',
@@ -48,8 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService,
-              private fantasyTokenService: FantasyTokenService) {
+              private breakpointService: NbMediaBreakpointsService) {
   }
 
   ngOnInit() {
@@ -73,8 +71,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
-
-    this.getTokenFromLocalStorage();
   }
 
   ngOnDestroy() {
@@ -96,17 +92,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
-  }
-
-  public setTokenInLocalStorage() {
-    this.fantasyTokenService.setToken(this.tokenInput);
-  }
-
-  public getTokenFromLocalStorage() {
-    const token: string = this.fantasyTokenService.getToken();
-    if (token) {
-      this.tokenInput = this.fantasyTokenService.getToken();
-    }
   }
 
 }

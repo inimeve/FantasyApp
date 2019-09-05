@@ -10,11 +10,14 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate() {
-    const refresh_token: string = localStorage.getItem('refresh_token');
-
-    if (refresh_token) return true;
-
-    this.router.navigate(['/fantasy-login/login']);
-    return false;
+    return this.authService.isAuthenticated()
+      .pipe(
+        tap(authenticated => {
+          if (!authenticated) {
+            this.router.navigate(['fantasy-login/login']);
+          }
+        }),
+      );
   }
+
 }

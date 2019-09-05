@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {MySubPageComponent} from './my-sub-page/my-sub-page.component';
 import {MyPageComponent} from './my-page.component';
-import {TokenActivate} from '../../@fantasy/auth/token-activate/token-activate';
 
 const routes: Routes = [{
   path: '',
@@ -12,7 +11,6 @@ const routes: Routes = [{
     {
       path: 'my-sub-page',
       component: MySubPageComponent,
-      // canActivate: [TokenActivate],
     },
     {
       path: '',

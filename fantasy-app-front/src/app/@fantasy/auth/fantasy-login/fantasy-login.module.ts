@@ -11,7 +11,7 @@ import {
   NbInputModule,
 } from '@nebular/theme';
 import {FantasyLoginRoutingModule} from './fantasy-login-routing.module';
-import {FantasyLoginComponent} from './fantasy-login.component';
+import {FantasyLoginComponent} from './fantasy-login/fantasy-login.component';
 
 
 @NgModule({

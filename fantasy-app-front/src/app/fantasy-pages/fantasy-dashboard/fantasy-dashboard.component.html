@@ -1,3 +1,10 @@
-<p>
-  fantasy-dashboard works!
-</p>
+<nb-card>
+  <nb-card-header>
+    Players Data
+  </nb-card-header>
+
+  <nb-card-body>
+    <ng2-smart-table [settings]="playerDataSettings" [source]="playerData">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

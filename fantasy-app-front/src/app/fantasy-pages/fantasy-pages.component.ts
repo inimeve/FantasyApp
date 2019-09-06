@@ -5,10 +5,10 @@ import { MENU_ITEMS } from './fantasy-pages-menu';
   selector: 'ngx-fantasy-pages',
   styleUrls: ['./fantasy-pages.component.scss'],
   template: `
-      <ngx-one-column-layout>
+      <ngx-fantasy-one-column-layout>
           <nb-menu [items]="menu"></nb-menu>
           <router-outlet></router-outlet>
-      </ngx-one-column-layout>
+      </ngx-fantasy-one-column-layout>
   `,
 })
 export class FantasyPagesComponent {

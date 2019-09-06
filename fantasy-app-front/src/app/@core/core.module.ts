@@ -1,6 +1,11 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NbAuthModule, NbAuthOAuth2JWTToken, NbDummyAuthStrategy, NbPasswordAuthStrategy} from '@nebular/auth';
+import {
+  NbAuthJWTInterceptor,
+  NbAuthModule,
+  NbAuthOAuth2JWTToken,
+  NbPasswordAuthStrategy,
+} from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -51,6 +56,8 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthTokenInterceptor} from '../@fantasy/auth/token-interceptor/auth-token.interceptor';
 
 const socialLinks = [
   {
@@ -109,10 +116,6 @@ export const NB_CORE_PROVIDERS = [
         name: 'email',
         baseEndpoint: '/api/auth/',
         token: {
-          // key: 'access_token',
-          // getter: (module: any, response: any, options: any) => {
-          //   return {access_token: response.body.access_token, refresh_token: response.body.refresh_token};
-          // },
           class: NbAuthOAuth2JWTToken,
           key: 'token',
         },
@@ -123,10 +126,18 @@ export const NB_CORE_PROVIDERS = [
             failure: null,
           },
         },
+        refreshToken: {
+          endpoint: 'login',
+          redirect: {
+            success: '/dashboard/',
+            failure: null,
+          },
+        },
       }),
     ],
     forms: {
       login: {
+        redirectDelay: 0,
         strategy: 'email',
         showMessages: {
           success: true,
@@ -136,8 +147,6 @@ export const NB_CORE_PROVIDERS = [
       validation: {
         refresh_token: {
           required: true,
-          // minLength: 1200,
-          // maxLength: 1400,
         },
       },
     },
@@ -159,6 +168,11 @@ export const NB_CORE_PROVIDERS = [
 
   {
     provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: NbAuthJWTInterceptor,
+    multi: true,
   },
   AnalyticsService,
   LayoutService,

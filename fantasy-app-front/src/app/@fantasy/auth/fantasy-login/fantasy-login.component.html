@@ -1,5 +1,4 @@
 <h1 id="title" class="title">Paste Refresh Token</h1>
-<!--<p class="sub-title">Paster your refresh token</p>-->
 
 <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
   <p class="alert-title"><b>Oh snap!</b></p>
@@ -46,10 +45,6 @@
         characters
       </p>
     </ng-container>
-  </div>
-
-  <div class="form-control-group accept-group">
-    <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
   </div>
 
   <button nbButton

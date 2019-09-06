@@ -10,7 +10,7 @@ import {
   NbCheckboxModule,
   NbInputModule,
 } from '@nebular/theme';
-import {FantasyLoginRoutingModule} from './fantasy-login-routing.module';
+import {FantasyAuthRoutingModule} from './fantasy-auth-routing.module';
 import {FantasyLoginComponent} from './fantasy-login/fantasy-login.component';
 
 
@@ -23,7 +23,7 @@ import {FantasyLoginComponent} from './fantasy-login/fantasy-login.component';
     NbInputModule,
     NbButtonModule,
     NbCheckboxModule,
-    FantasyLoginRoutingModule,
+    FantasyAuthRoutingModule,
 
     NbAuthModule,
   ],
@@ -31,4 +31,4 @@ import {FantasyLoginComponent} from './fantasy-login/fantasy-login.component';
     FantasyLoginComponent,
   ],
 })
-export class FantasyLoginModule { }
+export class FantasyAuthModule { }

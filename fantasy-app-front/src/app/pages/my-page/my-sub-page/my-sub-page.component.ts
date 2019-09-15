@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FantasyPlayerData} from '../../../@fantasy/api/fantasy-players/fantasy-players';
+import { Component, OnInit } from '@angular/core';
+import { FantasyPlayerService } from '../../../@fantasy/api/fantasy-players/fantasy-players.service';
 
 @Component({
   selector: 'ngx-my-sub-page',
@@ -68,7 +68,7 @@ export class MySubPageComponent implements OnInit {
 
   tokenInput: string;
 
-  constructor(private fantasyPlayersService: FantasyPlayerData) { }
+  constructor(private fantasyPlayersService: FantasyPlayerService) { }
 
   ngOnInit() {
   }

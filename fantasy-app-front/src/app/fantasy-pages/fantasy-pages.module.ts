@@ -5,7 +5,7 @@ import { FantasyPagesRoutingModule } from './fantasy-pages-routing.module';
 import { FantasyPagesComponent } from './fantasy-pages.component';
 import { FantasyDashboardModule } from './fantasy-dashboard/fantasy-dashboard.module';
 import { NbMenuModule } from '@nebular/theme';
-import {FantasyModule} from '../@fantasy/fantasy.module';
+import { FantasyModule } from '../@fantasy/fantasy.module';
 
 @NgModule({
   imports: [

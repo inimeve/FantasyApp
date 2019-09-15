@@ -2,7 +2,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {FantasyPlayersApi} from './api/fantasy-players/fantasy-players.api';
-import {FantasyPlayerData} from './api/fantasy-players/fantasy-players';
 import {FantasyPlayerService} from './api/fantasy-players/fantasy-players.service';
 import {FantasyStuffComponent} from './components/fantasy-stuff/fantasy-stuff.component';
 import {AuthGuard} from './auth/route-guards/auth-guard.service';
@@ -48,7 +47,7 @@ const API = [
   FantasyPlayersApi,
 ];
 const SERVICES = [
-  { provide: FantasyPlayerData, useClass: FantasyPlayerService },
+  { provide: FantasyPlayerService, useClass: FantasyPlayerService },
   { provide: AuthGuard, useClass: AuthGuard},
 ];
 

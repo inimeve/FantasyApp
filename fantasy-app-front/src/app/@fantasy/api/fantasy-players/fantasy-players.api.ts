@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 
 import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {FantasyUser, FantasyUserAdapter} from './fantasy-user.model';
-import {FantasyPlayer} from './fantasy-players';
+import {FantasyUser, FantasyUserAdapter} from '../fantasy-manager/fantasy-user.model';
 import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
+import { FantasyPlayer } from './fantasy-player.model';
+import { FantasyPlayerAdapter } from './fantasy-player.adapter';
 
 @Injectable()
 export class FantasyPlayersApi {
@@ -33,8 +34,8 @@ export class FantasyPlayersApi {
     };
 
     return this.http.get(this.apiUrl + '/players/all/league/01174211', httpOptions)
-      .pipe(map((data: FantasyPlayer[]) => {
-        return data;
+      .pipe(map((items: FantasyPlayer[]) => {
+        return items.map(item => FantasyPlayerAdapter.adapt(item));
       }));
   }
 

@@ -4,7 +4,12 @@
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table [settings]="playerDataSettings" [source]="playerData">
-    </ng2-smart-table>
+    <ag-grid-angular
+      style="width: 100%; height: 800px;"
+      class="ag-theme-balham"
+      [rowData]="playerData"
+      [gridOptions]="gridOptions"
+    >
+    </ag-grid-angular>
   </nb-card-body>
 </nb-card>

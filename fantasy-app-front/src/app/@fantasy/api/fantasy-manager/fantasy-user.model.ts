@@ -1,4 +1,3 @@
-import {Adapter} from './fantasy-players';
 import {Injectable} from '@angular/core';
 
 export class FantasyUser {
@@ -15,7 +14,7 @@ export class FantasyUser {
 @Injectable({
   providedIn: 'root',
 })
-export class FantasyUserAdapter implements  Adapter<FantasyUser> {
+export class FantasyUserAdapter {
 
   adapt(item: any): FantasyUser {
     return new FantasyUser(

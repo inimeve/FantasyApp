@@ -1,47 +1,93 @@
 export class FantasyPlayerAdapter {
-    static adapt(item: any): FantasyPlayer {
-        let fantasyPlayer: FantasyPlayer = new FantasyPlayer();
-        fantasyPlayer.id = item.id;
-        fantasyPlayer.nickname = item.nickname;
-        fantasyPlayer.points = item.points;
-        fantasyPlayer.positionId = item.positionId;
-        fantasyPlayer.marketValue = item.marketValue;
-        fantasyPlayer.name = item.name;
-        fantasyPlayer.weekPoints = item.weekPoints;
-        fantasyPlayer.team = item.team;
-        fantasyPlayer.averagePoints = item.averagePoints;
-        fantasyPlayer.lastSeasonPoints = item.lastSeasonPoints;
-        fantasyPlayer.position = item.position;
-        fantasyPlayer.playerStats = item.playerStats;
-        fantasyPlayer.playerStatus = item.playerStatus;
-        fantasyPlayer.buyoutClause = item.buyoutClause;
-        fantasyPlayer.playerTeamId = item.playerTeamId;
-        fantasyPlayer.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
 
-        return fantasyPlayer;
+    static toDTO(item: FantasyPlayerDomain): FantasyPlayerDTO {
+
+        const fantasyPlayerDto: FantasyPlayerDTO = new FantasyPlayerDTO();
+
+        fantasyPlayerDto.points = item.points;
+        fantasyPlayerDto.weekPoints = item.weekPoints;
+        fantasyPlayerDto.averagePoints = item.averagePoints;
+        fantasyPlayerDto.images = item.images;
+        fantasyPlayerDto.id = item.id;
+        fantasyPlayerDto.team = item.team;
+        fantasyPlayerDto.name = item.name;
+        fantasyPlayerDto.lastSeasonPoints = item.lastSeasonPoints;
+        fantasyPlayerDto.nickname = item.nickname;
+        fantasyPlayerDto.slug = item.slug;
+        fantasyPlayerDto.birthDate = item.birthDate;
+        fantasyPlayerDto.birthplace = item.birthplace;
+        fantasyPlayerDto.positionId = item.positionId;
+        fantasyPlayerDto.position = item.position;
+        fantasyPlayerDto.height = item.height;
+        fantasyPlayerDto.playerStats = item.playerStats;
+        fantasyPlayerDto.marketValue = item.marketValue;
+        fantasyPlayerDto.playerStatus = item.playerStatus;
+
+        fantasyPlayerDto.buyoutClause = item.buyoutClause;
+        fantasyPlayerDto.playerTeamId = item.playerTeamId;
+        fantasyPlayerDto.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
+
+        return fantasyPlayerDto;
     }
-}
-
-export class FantasyPlayer {
-
-    public id!: number;
-    public nickname!: string;
-    public points!: number;
-    public positionId!: number;
-    public marketValue!: number;
-
-    public name!: string;
-    public weekPoints!: number;
-    public averagePoints!: number;
-    public team!: any;
-    public lastSeasonPoints!: number;
-    public position!: string;
-    public playerStats!: any[];
-    public playerStatus!: string;
-    public buyoutClause!: number;
-    public playerTeamId!: string;
-    public buyoutClauseLockedEndTime!: string;
-
-    constructor () {}
 
 }
+
+export class FantasyPlayerDomain {
+
+    public points: number;
+    public weekPoints: number;
+    public averagePoints: number;
+    public images: any;
+    public id: string;
+    public team: any;
+    public name: string;
+    public lastSeasonPoints: number;
+    public nickname: string;
+    public slug: string;
+    public birthDate: string;
+    public birthplace: string;
+    public positionId: number;
+    public position: string;
+    public height: number;
+    public playerStats: any;
+    public marketValue: number;
+    public playerStatus: string;
+
+    public buyoutClause: number;
+    public playerTeamId: string;
+    public buyoutClauseLockedEndTime: string;
+
+    constructor() {}
+
+}
+
+export class FantasyPlayerDTO {
+
+    public points: number;
+    public weekPoints: number;
+    public averagePoints: number;
+    public images: any;
+    public id: string;
+    public team: any;
+    public name: string;
+    public lastSeasonPoints: number;
+    public nickname: string;
+    public slug: string;
+    public birthDate: string;
+    public birthplace: string;
+    public positionId: number;
+    public position: string;
+    public height: number;
+    public playerStats: any;
+    public marketValue: number;
+    public playerStatus: string;
+
+    public buyoutClause: number;
+    public playerTeamId: string;
+    public buyoutClauseLockedEndTime: string;
+
+    constructor() {}
+
+}
+
+

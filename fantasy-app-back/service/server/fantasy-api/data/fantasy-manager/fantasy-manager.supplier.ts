@@ -1,10 +1,9 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-import { FantasyManager, FantasyManagerAdapter } from './fantasy-manager.model'
+import { FantasyManagerAdapter, FantasyManagerDTO } from './fantasy-manager.model';
 
 export class FantasyManagerSupplier {
 
-    public getCurrentManagerInfo(accessToken: string): Promise<FantasyManager> {
+    public getCurrentManagerInfo(accessToken: string): Promise<FantasyManagerDTO> {
         if(!accessToken) return Promise.reject({message: 'Access token needed'});
 
         const requestConfig: AxiosRequestConfig = {
@@ -18,7 +17,7 @@ export class FantasyManagerSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data) {
-                    return Promise.resolve(FantasyManagerAdapter.adapt(response.data));
+                    return Promise.resolve(FantasyManagerAdapter.toDTO(response.data));
                 } else {
                     return Promise.reject({message: 'Error in external request (' + typeof this + 'getCurrentManagerInfo): code -> ' + response.status});
                 }

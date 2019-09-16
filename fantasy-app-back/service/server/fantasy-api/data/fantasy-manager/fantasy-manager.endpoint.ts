@@ -4,6 +4,7 @@ import { noCache } from '../../../middlewares/NoCacheMiddleware';
 import { Endpoint } from '../../../types/Endpoint';
 
 import { FantasyManagerService } from './fantasy-manager.service';
+import { FantasyManagerDTO } from './fantasy-manager.model';
 
 export class FantasyManagerEndpoints {
 
@@ -21,16 +22,16 @@ export class FantasyManagerEndpoints {
 
     public configEndpoints (): Endpoint[] {
         return [
-            { method: 'GET', path: `${this.resourcePath}/me`, serviceMethod: this.getCurrentManagerInfo, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/me`, serviceMethod: this.getCurrentManager, middleware: [noCache]},
         ];
     };
 
-    public getCurrentManagerInfo  = async (req: Request, res: Response, next: NextFunction) => {
+    public getCurrentManager  = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const accessToken: string = req.headers.authorization || '';
 
-            this.fantasyManagerService.getCurrentManagerInfo(accessToken)
-                .then((rankingData: any) => res.json(rankingData))
+            this.fantasyManagerService.getCurrentManager(accessToken)
+                .then((manager: FantasyManagerDTO) => res.json(manager))
                 .catch(err => res.send(err));
 
         } catch (err) {

@@ -4,6 +4,7 @@ import { noCache } from '../../../middlewares/NoCacheMiddleware';
 import { Endpoint } from '../../../types/Endpoint';
 
 import { FantasyLeagueService } from './fantasy-league.service';
+import { FantasyLeagueDTO } from './fantasy-league.model';
 
 export class FantasyLeagueEndpoints {
 
@@ -21,22 +22,36 @@ export class FantasyLeagueEndpoints {
 
     public configEndpoints (): Endpoint[] {
         return [
-            { method: 'GET', path: `${this.resourcePath}/:leagueId`, serviceMethod: this.getLeagueInfo, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/:leagueId`, serviceMethod: this.getLeagueById, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}`, serviceMethod: this.getLeagues, middleware: [noCache]},
         ];
     };
 
-    public getLeagueInfo  = async (req: Request, res: Response, next: NextFunction) => {
+    public getLeagueById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const leagueId: string = req.params.leagueId;
             const accessToken: string = req.headers.authorization || '';
 
-            this.fantasyLeagueService.getLeagueInfo(leagueId, accessToken)
-                .then((leagueData: any) => res.json(leagueData))
+            this.fantasyLeagueService.getLeagueById(leagueId, accessToken)
+                .then((league: FantasyLeagueDTO) => res.json(league))
                 .catch(err => res.send(err));
 
         } catch (err) {
             next(err);
         }
     };
+
+    public getLeagues = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const accessToken: string = req.headers.authorization || '';
+
+            this.fantasyLeagueService.getLeagues(accessToken)
+                .then((leagues: FantasyLeagueDTO[]) => res.json(leagues))
+                .catch(err => res.send(err));
+
+        } catch (err) {
+            next(err);
+        }
+    }
 
 }

@@ -1,5 +1,5 @@
 import { FantasyTeamSupplier } from './fantasy-team.supplier';
-import { FantasyTeam } from './fantasy-team.model'
+import { FantasyTeamDTO } from './fantasy-team.model';
 
 export class FantasyTeamService {
 
@@ -9,8 +9,8 @@ export class FantasyTeamService {
         this.fantasyTeamSupplier = new FantasyTeamSupplier();
     }
 
-    public getRankingData(leagueId: string, accessToken: string): Promise<FantasyTeam[]> {
-        return this.fantasyTeamSupplier.getRankingData(leagueId, accessToken);
+    public getTeamsInLeague(leagueId: string, accessToken: string): Promise<FantasyTeamDTO[]> {
+        return this.fantasyTeamSupplier.getTeamsInLeague(leagueId, accessToken);
     }
 
 }

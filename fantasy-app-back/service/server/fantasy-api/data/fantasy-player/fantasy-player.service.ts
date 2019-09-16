@@ -1,7 +1,7 @@
 import { FantasyPlayerSupplier } from './fantasy-player.supplier';
-import { FantasyPlayer } from './fantasy-player.model';
 import { FantasyTeamService } from '../fantasy-team/fantasy-team.service';
-import { FantasyTeam } from '../fantasy-team/fantasy-team.model';
+import { FantasyPlayerDTO } from './fantasy-player.model';
+import { FantasyTeamDTO } from '../fantasy-team/fantasy-team.model';
 
 export class FantasyPlayerService {
 
@@ -15,34 +15,53 @@ export class FantasyPlayerService {
         this.fantasyTeamService = new FantasyTeamService();
     }
 
-    public getPlayer(playerId: number): Promise<FantasyPlayer> {
-        return this.fantasyPlayerSupplier.getPlayer(playerId);
+    public getPlayerById(playerId: number): Promise<FantasyPlayerDTO> {
+        return this.fantasyPlayerSupplier.getPlayerById(playerId);
     }
 
-    public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayer[]> {
-        return this.fantasyPlayerSupplier.getAllPlayersInLeague(leagueId, accessToken);
+    public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
+        return this.fantasyPlayerSupplier.getPlayersInLeague(leagueId, accessToken);
     }
 
-    public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayer[]> {
+    public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
         return this.fantasyPlayerSupplier.getTeamPlayers(leagueId, teamId, accessToken);
     }
 
-    public getAllPlayersData(leagueId: string, accessToken: string): Promise<FantasyPlayer[]> {
-        const teamPlayerDataPromise: Promise<FantasyPlayer[]> = this.fantasyTeamService.getRankingData(leagueId, accessToken)
-            .then((rankingData: FantasyTeam[]) => {
-                const teamsPlayersPromises: Promise<FantasyPlayer[]>[] = [];
+    public async getAllPlayersData(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
+        // const teamsInLeague: FantasyTeamDTO[] = await this.fantasyTeamService.getTeamsInLeague(leagueId, accessToken);
+        //
+        // let playersInLeagueTeams: FantasyPlayerDTO[] = [];
+        //
+        // for (let team of teamsInLeague) {
+        //     playersInLeagueTeams = [...playersInLeagueTeams, ...await this.fantasyPlayerSupplier.getTeamPlayers(leagueId, team.id, accessToken)];
+        // }
+        //
+        // let playersInLeague: FantasyPlayerDTO[] = await this.fantasyPlayerSupplier.getPlayersInLeague(leagueId, accessToken);
+        //
+        // playersInLeague = playersInLeague.map((player: FantasyPlayerDTO) => {
+        //     for (let teamPlayer of playersInLeagueTeams) {
+        //         if (player.id == teamPlayer.id) player = {...player, ...teamPlayer};
+        //     }
+        //     return player;
+        // })
+        //
+        // return playersInLeague;
 
-                for(let team of rankingData) {
-                    let teamPlayersPromise: Promise<FantasyPlayer[]> = this.fantasyPlayerSupplier.getTeamPlayers(leagueId, team.id, accessToken);
+        const teamPlayersDataPromise: Promise<FantasyPlayerDTO[]> = this.fantasyTeamService.getTeamsInLeague(leagueId, accessToken)
+            .then((teams: FantasyTeamDTO[]) => {
+                const teamsPlayersPromises: Promise<FantasyPlayerDTO[]>[] = [];
+
+                for(let team of teams) {
+                    let teamPlayersPromise: Promise<FantasyPlayerDTO[]> = this.fantasyPlayerSupplier.getTeamPlayers(leagueId, team.id, accessToken);
                     teamsPlayersPromises.push(teamPlayersPromise);
                 }
 
                 return Promise.all(teamsPlayersPromises)
-                    .then((values: any[]) => {
-                        let teamsPlayers: FantasyPlayer[] = [];
+                    .then((teams: FantasyPlayerDTO[][]) => {
+                        let teamsPlayers: FantasyPlayerDTO[] = [];
 
-                        for(let team of values) {
-                            for(let player of team.players) {
+                        for(let teamPlayers of teams) {
+                            for(let player of teamPlayers) {
                                 teamsPlayers.push(player);
                             }
                         }
@@ -50,13 +69,13 @@ export class FantasyPlayerService {
                     });
             });
 
-        const playersInLeaguePromise: Promise<FantasyPlayer[]> = this.fantasyPlayerSupplier.getAllPlayersInLeague(leagueId, accessToken)
-            .then((playersData: FantasyPlayer[]) => playersData);
+        const playersInLeaguePromise: Promise<FantasyPlayerDTO[]> = this.fantasyPlayerSupplier.getPlayersInLeague(leagueId, accessToken)
+            .then((playersData: FantasyPlayerDTO[]) => playersData);
 
-        return Promise.all([teamPlayerDataPromise, playersInLeaguePromise])
+        return Promise.all([teamPlayersDataPromise, playersInLeaguePromise])
             .then((values: any[]) => {
-                const teamsPlayerData: FantasyPlayer[] = values[0];
-                let playersInLeague: FantasyPlayer[] = values[1];
+                const teamsPlayerData: FantasyPlayerDTO[] = values[0];
+                let playersInLeague: FantasyPlayerDTO[] = values[1];
 
                 playersInLeague = playersInLeague.map(player => {
                     for(let teamPlayer of teamsPlayerData) {

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { noCache } from '../../../middlewares/NoCacheMiddleware';
 import { Endpoint } from '../../../types/Endpoint';
 import { FantasyPlayerService } from './fantasy-player.service';
+import { FantasyPlayerDTO } from './fantasy-player.model';
 
 export class FantasyPlayerEndpoint {
 
@@ -19,7 +20,7 @@ export class FantasyPlayerEndpoint {
 
     public configEndpoints (): Endpoint[] {
         return [
-            { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayer, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayerById, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId/:teamId`, serviceMethod: this.getTeamPlayers, middleware: [noCache]},
             // { method: 'GET', path: `${this.resourcePath}/getAllPlayers/league/:leagueId`, serviceMethod: this.getAllPlayersData, middleware: [noCache]},
@@ -27,12 +28,12 @@ export class FantasyPlayerEndpoint {
         ];
     };
 
-    public getPlayer = async (req: Request, res: Response, next: NextFunction) => {
+    public getPlayerById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const playerId: number = req.params.playerId;
 
-            this.fantasyDataService.getPlayer(playerId)
-                .then((playerData: any) => {
+            this.fantasyDataService.getPlayerById(playerId)
+                .then((playerData: FantasyPlayerDTO) => {
                     if (playerData) {
                         res.json(playerData);
                     } else {
@@ -54,7 +55,7 @@ export class FantasyPlayerEndpoint {
             const accessToken: string = req.headers.authorization || '';
 
             this.fantasyDataService.getPlayersInLeague(leagueId, accessToken)
-                .then((playersData: any) => res.json(playersData))
+                .then((playersData: FantasyPlayerDTO[]) => res.json(playersData))
                 .catch(err => res.send(err));
 
         } catch (err) {
@@ -69,7 +70,7 @@ export class FantasyPlayerEndpoint {
             const accessToken: string = req.headers.authorization || '';
 
             this.fantasyDataService.getTeamPlayers(leagueId, teamId, accessToken)
-                .then((playersData: any) => res.json(playersData))
+                .then((playersData: FantasyPlayerDTO[]) => res.json(playersData))
                 .catch(err => res.send(err));
 
         } catch (err) {
@@ -83,7 +84,7 @@ export class FantasyPlayerEndpoint {
             const accessToken: string = req.headers.authorization || '';
 
             this.fantasyDataService.getAllPlayersData(leagueId, accessToken)
-                .then((playersData: any) => res.json(playersData))
+                .then((playersData: FantasyPlayerDTO[]) => res.json(playersData))
                 .catch(err => res.send(err));
 
         } catch (err) {

@@ -10,7 +10,8 @@
         "experimentalDecorators": true,
         "jsx": "react",
         "importHelpers": true,
-        "lib": [ "es2017", "dom" ]
+        "lib": [ "es2017", "dom" ],
+        "strictPropertyInitialization": false,
     },
     "include": [
         "./service/**/*"

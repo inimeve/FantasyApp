@@ -1,5 +1,5 @@
 import { FantasyLeagueSupplier } from './fantasy-league.supplier';
-import { FantasyLeague } from './fantasy-league.model';
+import { FantasyLeagueDTO } from './fantasy-league.model';
 
 export class FantasyLeagueService {
 
@@ -9,8 +9,13 @@ export class FantasyLeagueService {
         this.fantasyLeagueRepository = new FantasyLeagueSupplier();
     }
 
-    public getLeagueInfo(leagueId: string, accessToken: string): Promise<FantasyLeague> {
-        return this.fantasyLeagueRepository.getLeagueInfo(leagueId, accessToken);
+    public async getLeagues(accessToken: string): Promise<FantasyLeagueDTO[]> {
+        return this.fantasyLeagueRepository.getLeagues(accessToken);
     }
+
+    public async getLeagueById(leagueId: string, accessToken: string): Promise<FantasyLeagueDTO> {
+        return this.fantasyLeagueRepository.getLeagueById(leagueId, accessToken);
+    }
+
 
 }

@@ -1,10 +1,10 @@
-import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { FantasyPlayerAdapter, FantasyPlayerDomain, FantasyPlayerDTO } from './fantasy-player.model';
 
-import { FantasyPlayer, FantasyPlayerAdapter } from './fantasy-player.model'
 
 export class FantasyPlayerSupplier {
 
-    public getPlayer(playerId: number): Promise<FantasyPlayer> {
+    public getPlayerById(playerId: number): Promise<FantasyPlayerDTO> {
         const requestConfig: AxiosRequestConfig = {
             method: 'GET',
             url: `https://api.laligafantasymarca.com/api/v3/player/${playerId}`,
@@ -13,7 +13,7 @@ export class FantasyPlayerSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data) {
-                    return Promise.resolve(FantasyPlayerAdapter.adapt(response.data));
+                    return Promise.resolve(FantasyPlayerAdapter.toDTO(response.data));
                 } else {
                     return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + response.status});
                 }
@@ -21,7 +21,7 @@ export class FantasyPlayerSupplier {
             .catch(error => error);
     }
 
-    public getAllPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayer[]> {
+    public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
         if(!accessToken) return Promise.reject({message: 'Access token needed'});
 
         const requestConfig: AxiosRequestConfig = {
@@ -35,7 +35,7 @@ export class FantasyPlayerSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data) {
-                    return Promise.resolve(response.data.map((item: any) => FantasyPlayerAdapter.adapt(item)));
+                    return Promise.resolve(response.data.map((item: FantasyPlayerDomain) => FantasyPlayerAdapter.toDTO(item)));
                 } else {
                     return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getAllPlayersInLeague): code -> ' + response.status});
                 }
@@ -43,7 +43,7 @@ export class FantasyPlayerSupplier {
             .catch(error => error);
     }
 
-    public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayer[]> {
+    public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
         if(!accessToken) return Promise.reject({message: 'Access token needed'});
 
         const requestConfig: AxiosRequestConfig = {
@@ -57,24 +57,17 @@ export class FantasyPlayerSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data) {
-                    let teamData: any = {
-                        players: response.data.players? response.data.players.map((item: any) => {
-                            let fantasyPlayer: FantasyPlayer = FantasyPlayerAdapter.adapt(item.playerMaster);
-                            fantasyPlayer.buyoutClause = item.buyoutClause;
-                            fantasyPlayer.playerTeamId = item.playerTeamId;
-                            fantasyPlayer.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
-                            return fantasyPlayer;
-                        }): [],
-                        id: response.data.id,
-                        manager: response.data.manager,
-                        teamValue: response.data.teamValue,
-                        teamPoints: response.data.teamPoints,
-                        position: response.data.position,
-                    };
+                    const teamPlayers: FantasyPlayerDTO[] = response.data.players? response.data.players.map((item: any) => {
+                        const fantasyPlayer: FantasyPlayerDTO = FantasyPlayerAdapter.toDTO(item.playerMaster);
+                        fantasyPlayer.buyoutClause = item.buyoutClause;
+                        fantasyPlayer.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
+                        fantasyPlayer.playerTeamId = item.playerTeamId;
+                        return fantasyPlayer;
+                    }): [];
 
-                    return Promise.resolve(teamData);
+                    return Promise.resolve(teamPlayers);
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getAllPlayersInLeague): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getTeamPlayers): code -> ' + response.status});
                 }
             })
             .catch(error => error);

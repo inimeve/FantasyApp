@@ -1,10 +1,9 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-import { FantasyTeam, FantasyTeamAdapter } from './fantasy-team.model'
+import { FantasyTeamAdapter, FantasyTeamDTO } from './fantasy-team.model';
 
 export class FantasyTeamSupplier {
 
-    public getRankingData(leagueId: string, accessToken: string): Promise<FantasyTeam[]> {
+    public getTeamsInLeague(leagueId: string, accessToken: string): Promise<FantasyTeamDTO[]> {
         if(!accessToken) return Promise.reject({message: 'Access token needed'});
 
         const requestConfig: AxiosRequestConfig = {
@@ -18,7 +17,7 @@ export class FantasyTeamSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data) {
-                    return Promise.resolve(response.data.map((item: any) => FantasyTeamAdapter.adapt(item)));
+                    return Promise.resolve(response.data.map((item: any) => FantasyTeamAdapter.toDTO(item.team)));
                 } else {
                     return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getRankingData): code -> ' + response.status});
                 }

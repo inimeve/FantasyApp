@@ -127,7 +127,7 @@ export const NB_CORE_PROVIDERS = [
           },
         },
         refreshToken: {
-          endpoint: 'login',
+          endpoint: 'refreshToken',
           redirect: {
             success: '/dashboard/',
             failure: null,

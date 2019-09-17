@@ -20,6 +20,7 @@ export class FantasyAuthEndpoints {
     public configEndpoints (): Endpoint[] {
         return [
             { method: 'POST', path: `${this.resourcePath}/login`, serviceMethod: this.login, middleware: [noCache]},
+            { method: 'POST', path: `${this.resourcePath}/refreshToken`, serviceMethod: this.refreshToken, middleware: [noCache]},
             { method: 'POST', path: `${this.resourcePath}/checkLogin`, serviceMethod: this.checkTokenValidity, middleware: [noCache]}
         ]
     };
@@ -27,6 +28,23 @@ export class FantasyAuthEndpoints {
     public login = async (req: Request, res: Response, next: NextFunction) => {
         try{
             const refreshToken: any = req.body.refresh_token;
+
+            this.fantasyAuthService.login(refreshToken)
+                .then((tokenData: any) => {
+                    res.json(tokenData);
+                })
+                .catch((err: any) => {
+                    res.status(400).send(err);
+                });
+
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    public refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const refreshToken: any = req.body.token.refresh_token;
 
             this.fantasyAuthService.login(refreshToken)
                 .then((tokenData: any) => {

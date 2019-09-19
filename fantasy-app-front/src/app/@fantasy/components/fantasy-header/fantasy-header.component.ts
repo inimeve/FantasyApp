@@ -6,6 +6,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NbAuthOAuth2JWTToken, NbAuthService } from '@nebular/auth';
+import {FantasyManagerService} from '../../api/fantasy-manager/fantasy-manager.service';
+import {FantasyManager} from '../../api/fantasy-manager/fantasy-manager.model';
 
 @Component({
   selector: 'ngx-fantasy-header',
@@ -18,6 +20,8 @@ export class FantasyHeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: any;
 
+  fantasyManager: FantasyManager;
+
   userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
 
   constructor(private sidebarService: NbSidebarService,
@@ -26,29 +30,15 @@ export class FantasyHeaderComponent implements OnInit, OnDestroy {
               private userService: UserData,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private authService: NbAuthService) {
+              private authService: NbAuthService,
+              private fantasyManagerService: FantasyManagerService) {
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+    this.configBreakpoints();
 
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
-
-    this.authService.getToken()
-      .subscribe((token: NbAuthOAuth2JWTToken) => {
-        const tokenInfo: any = token.getAccessTokenPayload();
-        if (tokenInfo) {
-          this.user.name = tokenInfo.family_name + ' ' + tokenInfo.given_name;
-        }
-      });
+    this.fantasyManagerService.getCurrentManager()
+      .subscribe((fantasyManager: FantasyManager) => this.fantasyManager = fantasyManager);
   }
 
   ngOnDestroy() {
@@ -66,6 +56,16 @@ export class FantasyHeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  private configBreakpoints(): void {
+    const { xl } = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(
+        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
   }
 
 }

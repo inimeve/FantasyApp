@@ -121,13 +121,15 @@ export const NB_CORE_PROVIDERS = [
         },
         login: {
           endpoint: 'login',
+          requireValidToken: false,
           redirect: {
             success: '/dashboard/',
             failure: null,
           },
         },
         refreshToken: {
-          endpoint: 'login',
+          endpoint: 'refreshToken',
+          requireValidToken: false,
           redirect: {
             success: '/dashboard/',
             failure: null,

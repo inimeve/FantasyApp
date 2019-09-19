@@ -13,8 +13,4 @@ export class FantasyPlayerService {
     return this.playersApi.getAll();
   }
 
-  getRankingLeague(): Observable<any> {
-    return this.playersApi.getRankingLeague();
-  }
-
 }

@@ -121,6 +121,7 @@ export const NB_CORE_PROVIDERS = [
         },
         login: {
           endpoint: 'login',
+          requireValidToken: false,
           redirect: {
             success: '/dashboard/',
             failure: null,

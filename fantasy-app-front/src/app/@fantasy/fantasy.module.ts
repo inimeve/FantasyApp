@@ -1,17 +1,16 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import {FantasyPlayersApi} from './api/fantasy-players/fantasy-players.api';
-import {FantasyPlayerService} from './api/fantasy-players/fantasy-players.service';
+import {ModuleWithProviders, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FantasyStuffComponent} from './components/fantasy-stuff/fantasy-stuff.component';
 import {AuthGuard} from './auth/route-guards/auth-guard.service';
 import {FantasyHeaderComponent} from './components/fantasy-header/fantasy-header.component';
 import {
   NbActionsModule,
   NbContextMenuModule,
-  NbIconModule, NbLayoutModule,
+  NbIconModule,
+  NbLayoutModule,
   NbSearchModule,
-  NbSelectModule, NbSidebarModule,
+  NbSelectModule,
+  NbSidebarModule,
   NbUserModule,
 } from '@nebular/theme';
 import {NbSecurityModule} from '@nebular/security';
@@ -21,6 +20,7 @@ import {
   FantasyTwoColumnsLayoutComponent,
 } from './layouts';
 import {FantasyFooterComponent} from './components/fantasy-footer/fantasy-footer.component';
+import {FantasyApiModule} from './api/fantasy-api.module';
 
 const NB_MODULES = [
   NbIconModule,
@@ -32,6 +32,7 @@ const NB_MODULES = [
   NbSecurityModule,
   NbLayoutModule,
   NbSidebarModule,
+  FantasyApiModule,
 ];
 const COMPONENTS = [
   FantasyStuffComponent,
@@ -44,10 +45,10 @@ const COMPONENTS = [
 const PIPES = [
 ];
 const API = [
-  FantasyPlayersApi,
+  // FantasyPlayersApi,
 ];
 const SERVICES = [
-  { provide: FantasyPlayerService, useClass: FantasyPlayerService },
+  // { provide: FantasyPlayerService, useClass: FantasyPlayerService },
   { provide: AuthGuard, useClass: AuthGuard},
 ];
 
@@ -64,6 +65,7 @@ export class FantasyModule {
       providers: [
         ...API,
         ...SERVICES,
+        ...FantasyApiModule.forRoot().providers,
       ],
     };
   }

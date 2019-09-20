@@ -43,7 +43,7 @@ import {FantasyModule} from './@fantasy/fantasy.module';
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    FantasyApiModule.forRoot(),
+    // FantasyApiModule.forRoot(),
     FantasyModule.forRoot(),
   ],
   bootstrap: [AppComponent],

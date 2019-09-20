@@ -1,18 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-
-import {map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
-import {FantasyPlayer} from './fantasy-player.model';
-import {FantasyPlayerAdapter} from './fantasy-player.adapter';
+import {FantasyManagerAdapter, FantasyManagerDTO} from './fantasy-manager.model';
 
 @Injectable()
-export class FantasyPlayersApi {
+export class FantasyManagerApi {
 
   private readonly apiUrl: string = 'http://localhost:4200/api/';
 
-  private readonly resourcePath: string = 'fantasy';
+  private readonly resourcePath: string = 'manager';
 
   token: any;
 
@@ -25,17 +23,15 @@ export class FantasyPlayersApi {
       });
   }
 
-  getAll(): Observable<FantasyPlayer[]> {
+  getCurrentManager(): Observable<FantasyManagerDTO> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': this.token ? this.token.access_token : '',
       }),
     };
 
-    return this.http.get(this.apiUrl + '/players/all/league/01174211', httpOptions)
-      .pipe(map((items: FantasyPlayer[]) => {
-        return items.map(item => FantasyPlayerAdapter.adapt(item));
-      }));
+    return this.http.get(this.apiUrl + this.resourcePath + '/me', httpOptions)
+      .pipe(map((item: FantasyManagerDTO) => FantasyManagerAdapter.adapt(item)));
   }
 
 }

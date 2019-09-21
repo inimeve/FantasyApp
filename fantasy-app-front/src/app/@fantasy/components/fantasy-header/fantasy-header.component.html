@@ -9,6 +9,12 @@
 
 <div class="header-container">
   <nb-actions size="small">
+    <nb-action class="league-action">
+      <select name="miselect" [(ngModel)]="selectedFantasyLeagueId" (ngModelChange)="onLeagueChange($event)">
+        <option [value]="league.id" *ngFor="let league of fantasyManager?.leagues">{{league.name}}</option>
+      </select>
+    </nb-action>
+
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
                [onlyPicture]="userPictureOnly"

@@ -68,6 +68,7 @@ export class FantasyDashboardComponent implements OnInit {
 
   gridOptions: GridOptions = {
     columnDefs: this.playerColumnDefs,
+    rowData: [],
     components: {
       teamBadge: TeamBadgeCellRenderer,
       playerPosition: PlayerPositionCellRenderer,

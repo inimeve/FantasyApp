@@ -25,14 +25,14 @@ export class FantasyPlayersApi {
       });
   }
 
-  getAll(): Observable<FantasyPlayer[]> {
+  getAll(leagueId: string): Observable<FantasyPlayer[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': this.token ? this.token.access_token : '',
       }),
     };
 
-    return this.http.get(this.apiUrl + '/players/all/league/01174211', httpOptions)
+    return this.http.get(this.apiUrl + '/players/all/league/' + leagueId, httpOptions)
       .pipe(map((items: FantasyPlayer[]) => {
         return items.map(item => FantasyPlayerAdapter.adapt(item));
       }));

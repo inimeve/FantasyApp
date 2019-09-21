@@ -1,13 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  NbMediaBreakpointsService,
+  NbMenuService,
+  NbSelectComponent,
+  NbSidebarService,
+  NbThemeService,
+} from '@nebular/theme';
 
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { NbAuthOAuth2JWTToken, NbAuthService } from '@nebular/auth';
-import {FantasyManagerService} from '../../api/fantasy-manager/fantasy-manager.service';
-import {FantasyManager} from '../../api/fantasy-manager/fantasy-manager.model';
+import { NbAuthService } from '@nebular/auth';
+import { FantasyManagerService } from '../../api/fantasy-manager/fantasy-manager.service';
+import { FantasyLeague, FantasyManager } from '../../api/fantasy-manager/fantasy-manager.model';
+import { FantasyStateService } from '../../state/fantasy-state.service';
 
 @Component({
   selector: 'ngx-fantasy-header',
@@ -22,6 +29,8 @@ export class FantasyHeaderComponent implements OnInit, OnDestroy {
 
   fantasyManager: FantasyManager;
 
+  selectedFantasyLeagueId: string;
+
   userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
 
   constructor(private sidebarService: NbSidebarService,
@@ -31,14 +40,22 @@ export class FantasyHeaderComponent implements OnInit, OnDestroy {
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
               private authService: NbAuthService,
-              private fantasyManagerService: FantasyManagerService) {
+              private fantasyManagerService: FantasyManagerService,
+              private fantasyStateService: FantasyStateService) {
+    this.fantasyManagerService.getCurrentManager()
+      .subscribe((fantasyManager: FantasyManager) => {
+        this.fantasyManager = fantasyManager;
+
+        const selectedLeague = this.fantasyManager.leagues.find((league: FantasyLeague) => {
+          return league.id === this.fantasyStateService.getSelectedLeagueId();
+        });
+
+        this.selectedFantasyLeagueId = selectedLeague.id;
+      });
   }
 
   ngOnInit() {
     this.configBreakpoints();
-
-    this.fantasyManagerService.getCurrentManager()
-      .subscribe((fantasyManager: FantasyManager) => this.fantasyManager = fantasyManager);
   }
 
   ngOnDestroy() {
@@ -66,6 +83,11 @@ export class FantasyHeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+  }
+
+  onLeagueChange(leagueId: string): void {
+    // localStorage.setItem('league', JSON.stringify(league));
+    this.fantasyStateService.setSelectedLeagueId(leagueId);
   }
 
 }

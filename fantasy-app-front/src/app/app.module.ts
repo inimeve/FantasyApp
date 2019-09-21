@@ -20,7 +20,6 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import {FantasyApiModule} from './@fantasy/api/fantasy-api.module';
 import {FantasyModule} from './@fantasy/fantasy.module';
 
 @NgModule({
@@ -43,7 +42,6 @@ import {FantasyModule} from './@fantasy/fantasy.module';
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    // FantasyApiModule.forRoot(),
     FantasyModule.forRoot(),
   ],
   bootstrap: [AppComponent],

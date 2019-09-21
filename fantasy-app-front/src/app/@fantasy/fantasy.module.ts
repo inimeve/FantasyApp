@@ -21,6 +21,8 @@ import {
 } from './layouts';
 import {FantasyFooterComponent} from './components/fantasy-footer/fantasy-footer.component';
 import {FantasyApiModule} from './api/fantasy-api.module';
+import { FantasyStateService } from './state/fantasy-state.service';
+import { FormsModule } from '@angular/forms';
 
 const NB_MODULES = [
   NbIconModule,
@@ -32,7 +34,9 @@ const NB_MODULES = [
   NbSecurityModule,
   NbLayoutModule,
   NbSidebarModule,
+  NbSelectModule,
   FantasyApiModule,
+  FormsModule,
 ];
 const COMPONENTS = [
   FantasyStuffComponent,
@@ -45,11 +49,10 @@ const COMPONENTS = [
 const PIPES = [
 ];
 const API = [
-  // FantasyPlayersApi,
 ];
 const SERVICES = [
-  // { provide: FantasyPlayerService, useClass: FantasyPlayerService },
-  { provide: AuthGuard, useClass: AuthGuard},
+  {provide: AuthGuard, useClass: AuthGuard},
+  {provide: FantasyStateService, useClass: FantasyStateService},
 ];
 
 

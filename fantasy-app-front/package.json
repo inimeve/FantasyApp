@@ -12,7 +12,7 @@
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
-    "start.dev": "ng serve --proxy-config proxy.conf.json",
+    "start": "http-server dist/",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
     "test": "ng test",
@@ -26,7 +26,8 @@
     "docs": "compodoc -p src/tsconfig.app.json -d docs",
     "docs:serve": "compodoc -p src/tsconfig.app.json -d docs -s",
     "release:changelog": "npm run conventional-changelog -- -p angular -i CHANGELOG.md -s",
-    "postinstall": "npm run build:prod"
+    "preinstall": "npm install -g http-server",
+    "postinstall": "ng build --prod"
   },
   "dependencies": {
     "@agm/core": "^1.0.0-beta.5",

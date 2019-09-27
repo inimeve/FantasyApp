@@ -3,9 +3,6 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-trigger:
-- master
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -27,4 +24,11 @@ steps:
     verbose: false
     customCommand: 'run build'
 
-
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Azure App Service Deploy: Fantasy app'
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Pay-As-You-Go (b5e185e1-d72f-493e-86de-e303e4066d75)'
+    appType: 'webApp'
+    WebAppName: 'fantasy-app'
+    packageForLinux: 'fantasy-app-front/dist'

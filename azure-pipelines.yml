@@ -28,7 +28,7 @@ steps:
   displayName: 'Azure App Service Deploy: Fantasy app'
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Pay-As-You-Go (b5e185e1-d72f-493e-86de-e303e4066d75)'
+    azureSubscription: 'Pay-As-You-Go(3) (b5e185e1-d72f-493e-86de-e303e4066d75)'
     appType: 'webApp'
     WebAppName: 'fantasy-app'
     packageForLinux: 'fantasy-app-front/dist'

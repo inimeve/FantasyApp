@@ -61,7 +61,7 @@ export class FantasyPlayerSupplier {
                         const fantasyPlayer: FantasyPlayerDTO = FantasyPlayerAdapter.toDTO(item.playerMaster);
                         fantasyPlayer.buyoutClause = item.buyoutClause;
                         fantasyPlayer.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
-                        fantasyPlayer.playerTeamId = item.playerTeamId;
+                        fantasyPlayer.playerTeamId = teamId;
                         return fantasyPlayer;
                     }): [];
 

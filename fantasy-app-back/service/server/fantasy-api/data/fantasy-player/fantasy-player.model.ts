@@ -24,7 +24,7 @@ export class FantasyPlayerAdapter {
         fantasyPlayerDto.playerStatus = item.playerStatus;
 
         fantasyPlayerDto.buyoutClause = item.buyoutClause;
-        fantasyPlayerDto.playerTeamId = item.playerTeamId;
+        // fantasyPlayerDto.playerTeamId = item.playerTeamId;
         fantasyPlayerDto.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
 
         return fantasyPlayerDto;

@@ -65,7 +65,7 @@ export class FantasyPlayerDomain {
     public salePrice: number;
     public marketExpirationDate: string;
 
-    public marketValueHistory: any[];
+    public marketValueHistory: any;
 
     constructor() {}
 
@@ -99,7 +99,7 @@ export class FantasyPlayerDTO {
     public salePrice: number;
     public marketExpirationDate: string;
 
-    public marketValueHistory: any[];
+    public marketValueHistory: any;
 
     constructor() {}
 

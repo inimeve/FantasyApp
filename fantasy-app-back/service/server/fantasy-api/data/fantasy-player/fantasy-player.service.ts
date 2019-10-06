@@ -70,7 +70,7 @@ export class FantasyPlayerService {
                 return Promise.all(allPlayerPromises)
                     .then((data: FantasyPlayerDTO[]) => {
                         for (let i = 0; i < playersData.length; i++) {
-                            playersData[i].playerStats = data[i];
+                            playersData[i].marketValueHistory = data[i];
                         }
                         return playersData;
                     });

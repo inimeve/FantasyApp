@@ -31,7 +31,7 @@ export class FantasyPlayerEndpoint {
 
     public getPlayerValueHistory = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const playerId: number = req.params.playerId;
+            const playerId: string = req.params.playerId;
 
             this.fantasyDataService.getPlayerValueHistory(playerId)
                 .then((valueHistory: any) => {

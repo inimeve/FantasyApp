@@ -19,6 +19,10 @@ export class FantasyPlayerService {
         return this.fantasyPlayerSupplier.getPlayerById(playerId);
     }
 
+    public getPlayerValueHistory(playerId: string): Promise<FantasyPlayerDTO> {
+        return this.fantasyPlayerSupplier.getPlayerValueHistory(playerId);
+    }
+
     public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
         return this.fantasyPlayerSupplier.getPlayersInLeague(leagueId, accessToken);
     }
@@ -55,7 +59,22 @@ export class FantasyPlayerService {
             });
 
         const playersInLeaguePromise: Promise<FantasyPlayerDTO[]> = this.fantasyPlayerSupplier.getPlayersInLeague(leagueId, accessToken)
-            .then((playersData: FantasyPlayerDTO[]) => playersData);
+            .then((playersData: FantasyPlayerDTO[]) => {
+                const allPlayerPromises: Promise<FantasyPlayerDTO>[] = [];
+
+                for (let player of playersData) {
+                    let playerPromise: Promise<FantasyPlayerDTO> = this.fantasyPlayerSupplier.getPlayerValueHistory(player.id);
+                    allPlayerPromises.push(playerPromise);
+                }
+
+                return Promise.all(allPlayerPromises)
+                    .then((data: FantasyPlayerDTO[]) => {
+                        for (let i = 0; i < playersData.length; i++) {
+                            playersData[i].playerStats = data[i];
+                        }
+                        return playersData;
+                    });
+            });
 
         const marketPlayerInLeague: Promise<FantasyPlayerDTO[]> = this.fantasyPlayerSupplier.getPlayersInMarket(leagueId, accessToken)
             .then(playerData => playerData);

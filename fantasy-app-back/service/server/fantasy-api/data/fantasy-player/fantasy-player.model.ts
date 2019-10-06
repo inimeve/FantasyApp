@@ -30,6 +30,8 @@ export class FantasyPlayerAdapter {
         fantasyPlayerDto.salePrice = item.salePrice;
         fantasyPlayerDto.marketExpirationDate = item.marketExpirationDate;
 
+        fantasyPlayerDto.marketValueHistory = item.marketValueHistory;
+
         return fantasyPlayerDto;
     }
 
@@ -63,6 +65,8 @@ export class FantasyPlayerDomain {
     public salePrice: number;
     public marketExpirationDate: string;
 
+    public marketValueHistory: any[];
+
     constructor() {}
 
 }
@@ -94,6 +98,8 @@ export class FantasyPlayerDTO {
 
     public salePrice: number;
     public marketExpirationDate: string;
+
+    public marketValueHistory: any[];
 
     constructor() {}
 

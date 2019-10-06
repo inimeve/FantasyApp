@@ -21,6 +21,23 @@ export class FantasyPlayerSupplier {
             .catch(error => error);
     }
 
+    public getPlayerValueHistory(playerId: string): Promise<FantasyPlayerDTO> {
+        const requestConfig: AxiosRequestConfig = {
+            method: 'GET',
+            url: `https://api.laligafantasymarca.com/api/v3/player/${playerId}/market-value`,
+        };
+
+        return Axios(requestConfig)
+            .then((response: AxiosResponse) => {
+                if (response.status == 200 && response.data) {
+                    return Promise.resolve(response.data);
+                } else {
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + response.status});
+                }
+            })
+            .catch(error => error);
+    }
+
     public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
         if(!accessToken) return Promise.reject({message: 'Access token needed'});
 

@@ -21,11 +21,29 @@ export class FantasyPlayerEndpoint {
     public configEndpoints (): Endpoint[] {
         return [
             { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayerById, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/market/player/history/:playerId`, serviceMethod: this.getPlayerValueHistory, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId/:teamId`, serviceMethod: this.getTeamPlayers, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/all/league/:leagueId`, serviceMethod: this.getAllPlayersData, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/market/league/:leagueId`, serviceMethod: this.getPlayersInMarket, middleware: [noCache]},
         ];
+    };
+
+    public getPlayerValueHistory = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const playerId: number = req.params.playerId;
+
+            this.fantasyDataService.getPlayerValueHistory(playerId)
+                .then((valueHistory: any) => {
+                    res.json(valueHistory);
+                })
+                .catch((err: any) => {
+                    next(err);
+                })
+
+        } catch (err) {
+            next(err);
+        }
     };
 
     public getPlayerById = async (req: Request, res: Response, next: NextFunction) => {

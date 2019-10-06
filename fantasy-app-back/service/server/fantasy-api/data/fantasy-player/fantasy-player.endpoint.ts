@@ -23,8 +23,8 @@ export class FantasyPlayerEndpoint {
             { method: 'GET', path: `${this.resourcePath}/player/:playerId`, serviceMethod: this.getPlayerById, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId`, serviceMethod: this.getPlayersInLeague, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/league/:leagueId/:teamId`, serviceMethod: this.getTeamPlayers, middleware: [noCache]},
-            // { method: 'GET', path: `${this.resourcePath}/getAllPlayers/league/:leagueId`, serviceMethod: this.getAllPlayersData, middleware: [noCache]},
             { method: 'GET', path: `${this.resourcePath}/all/league/:leagueId`, serviceMethod: this.getAllPlayersData, middleware: [noCache]},
+            { method: 'GET', path: `${this.resourcePath}/market/league/:leagueId`, serviceMethod: this.getPlayersInMarket, middleware: [noCache]},
         ];
     };
 
@@ -61,7 +61,7 @@ export class FantasyPlayerEndpoint {
         } catch (err) {
             next(err);
         }
-    }
+    };
 
     public getTeamPlayers = async (req: Request, res: Response, next: NextFunction) => {
         try{
@@ -76,7 +76,21 @@ export class FantasyPlayerEndpoint {
         } catch (err) {
             next(err);
         }
-    }
+    };
+
+    public getPlayersInMarket = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const leagueId: string = req.params.leagueId;
+            const accessToken: string = req.headers.authorization || '';
+
+            this.fantasyDataService.getPlayersInMarket(leagueId, accessToken)
+                .then((playersData: FantasyPlayerDTO[]) => res.json(playersData))
+                .catch(err => res.send(err));
+
+        } catch (err) {
+            next(err);
+        }
+    };
 
     public getAllPlayersData = async (req: Request, res: Response, next: NextFunction) => {
         try{

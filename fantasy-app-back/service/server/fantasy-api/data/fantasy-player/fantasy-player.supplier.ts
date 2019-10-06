@@ -43,6 +43,35 @@ export class FantasyPlayerSupplier {
             .catch(error => error);
     }
 
+    public getPlayersInMarket(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
+        if(!accessToken) return Promise.reject({message: 'Access token needed'});
+
+        const requestConfig: AxiosRequestConfig = {
+            method: 'GET',
+            url: `https://api.laligafantasymarca.com/api/v3/league/${leagueId}/market`,
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }
+
+        return Axios(requestConfig)
+            .then((response: AxiosResponse) => {
+                if (response.status == 200 && response.data) {
+                    const markerPlayer: FantasyPlayerDTO[] = response.data? response.data.map((item: any) => {
+                        const fantasyPlayer: FantasyPlayerDTO = FantasyPlayerAdapter.toDTO(item.playerMaster);
+                        fantasyPlayer.salePrice = item.salePrice;
+                        fantasyPlayer.marketExpirationDate = item.marketExpirationDate;
+                        return fantasyPlayer;
+                    }): [];
+
+                    return Promise.resolve(markerPlayer);
+                } else {
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayersInMarket): code -> ' + response.status});
+                }
+            })
+            .catch(error => error);
+    }
+
     public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
         if(!accessToken) return Promise.reject({message: 'Access token needed'});
 

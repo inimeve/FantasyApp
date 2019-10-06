@@ -27,6 +27,9 @@ export class FantasyPlayerAdapter {
         // fantasyPlayerDto.playerTeamId = item.playerTeamId;
         fantasyPlayerDto.buyoutClauseLockedEndTime = item.buyoutClauseLockedEndTime;
 
+        fantasyPlayerDto.salePrice = item.salePrice;
+        fantasyPlayerDto.marketExpirationDate = item.marketExpirationDate;
+
         return fantasyPlayerDto;
     }
 
@@ -57,6 +60,9 @@ export class FantasyPlayerDomain {
     public playerTeamId: string;
     public buyoutClauseLockedEndTime: string;
 
+    public salePrice: number;
+    public marketExpirationDate: string;
+
     constructor() {}
 
 }
@@ -85,6 +91,9 @@ export class FantasyPlayerDTO {
     public buyoutClause: number;
     public playerTeamId: string;
     public buyoutClauseLockedEndTime: string;
+
+    public salePrice: number;
+    public marketExpirationDate: string;
 
     constructor() {}
 

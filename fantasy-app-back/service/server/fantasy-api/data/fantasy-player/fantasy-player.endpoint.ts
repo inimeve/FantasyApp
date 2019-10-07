@@ -38,7 +38,8 @@ export class FantasyPlayerEndpoint {
                     res.json(valueHistory);
                 })
                 .catch((err: any) => {
-                    next(err);
+                    res.status(err.response.status);
+                    res.json(err);
                 })
 
         } catch (err) {
@@ -48,18 +49,15 @@ export class FantasyPlayerEndpoint {
 
     public getPlayerById = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const playerId: number = req.params.playerId;
+            const playerId: string = req.params.playerId;
 
             this.fantasyDataService.getPlayerById(playerId)
                 .then((playerData: FantasyPlayerDTO) => {
-                    if (playerData) {
-                        res.json(playerData);
-                    } else {
-                        res.json({});
-                    }
+                    res.json(playerData);
                 })
                 .catch((err: any) => {
-                    next(err);
+                    res.status(err.response.status);
+                    res.json(err);
                 })
 
         } catch (err) {

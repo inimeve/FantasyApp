@@ -4,7 +4,7 @@ import { FantasyPlayerAdapter, FantasyPlayerDomain, FantasyPlayerDTO } from './f
 
 export class FantasyPlayerSupplier {
 
-    public getPlayerById(playerId: number): Promise<FantasyPlayerDTO> {
+    public getPlayerById(playerId: string): Promise<FantasyPlayerDTO> {
         const requestConfig: AxiosRequestConfig = {
             method: 'GET',
             url: `https://api.laligafantasymarca.com/api/v3/player/${playerId}`,
@@ -15,13 +15,15 @@ export class FantasyPlayerSupplier {
                 if (response.status == 200 && response.data) {
                     return Promise.resolve(FantasyPlayerAdapter.toDTO(response.data));
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + response.status, error: response});
                 }
             })
-            .catch(error => error);
+            .catch(error => {
+                return Promise.reject({...error, ...{message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + error.response.status}});
+            });
     }
 
-    public getPlayerValueHistory(playerId: string): Promise<FantasyPlayerDTO> {
+    public getPlayerValueHistory(playerId: string): Promise<any> {
         const requestConfig: AxiosRequestConfig = {
             method: 'GET',
             url: `https://api.laligafantasymarca.com/api/v3/player/${playerId}/market-value`,
@@ -30,12 +32,14 @@ export class FantasyPlayerSupplier {
         return Axios(requestConfig)
             .then((response: AxiosResponse) => {
                 if (response.status == 200 && response.data) {
-                    return Promise.resolve(response.data);
+                    return Promise.resolve({marketValueHistory: response.data, playerId: playerId});
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayer): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayerValueHistory): code -> ' + response.status, error: response});
                 }
             })
-            .catch(error => error);
+            .catch(error => {
+                return Promise.reject({...error, ...{message: 'Error in external request (' + this.constructor.name + '.getPlayerValueHistory): code -> ' + error.response.status}});
+            });
     }
 
     public getPlayersInLeague(leagueId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
@@ -83,10 +87,12 @@ export class FantasyPlayerSupplier {
 
                     return Promise.resolve(markerPlayer);
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayersInMarket): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getPlayersInMarket): code -> ' + response.status, error: response});
                 }
             })
-            .catch(error => error);
+            .catch(error => {
+                return Promise.reject({...error, ...{message: 'Error in external request (' + this.constructor.name + '.getPlayersInMarket): code -> ' + error.response.status}});
+            });
     }
 
     public getTeamPlayers(leagueId: string, teamId: string, accessToken: string): Promise<FantasyPlayerDTO[]> {
@@ -113,11 +119,12 @@ export class FantasyPlayerSupplier {
 
                     return Promise.resolve(teamPlayers);
                 } else {
-                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getTeamPlayers): code -> ' + response.status});
+                    return Promise.reject({message: 'Error in external request (' + this.constructor.name + '.getTeamPlayers): code -> ' + response.status, error: response});
                 }
             })
-            .catch(error => error);
+            .catch(error => {
+                return Promise.reject({...error, ...{message: 'Error in external request (' + this.constructor.name + '.getTeamPlayers): code -> ' + error.response.status}});
+            });
     }
-
 
 }

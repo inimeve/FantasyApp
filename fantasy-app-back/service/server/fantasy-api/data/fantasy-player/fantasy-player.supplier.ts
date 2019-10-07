@@ -82,6 +82,7 @@ export class FantasyPlayerSupplier {
                         const fantasyPlayer: FantasyPlayerDTO = FantasyPlayerAdapter.toDTO(item.playerMaster);
                         fantasyPlayer.salePrice = item.salePrice;
                         fantasyPlayer.marketExpirationDate = item.marketExpirationDate;
+                        fantasyPlayer.sellerTeam = item.sellerTeam;
                         return fantasyPlayer;
                     }): [];
 

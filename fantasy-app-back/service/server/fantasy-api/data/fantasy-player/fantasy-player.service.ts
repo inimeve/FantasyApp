@@ -165,8 +165,10 @@ export class FantasyPlayerService {
                 const marketPlayersPromises: Promise<FantasyPlayerDTO>[] = [];
 
                 for(let player of marketPlayersData) {
-                    const playerPromise: Promise<FantasyPlayerDTO> = this.getPlayerById(player.id);
-                    marketPlayersPromises.push(playerPromise);
+                    if(!player.sellerTeam) {
+                        const playerPromise: Promise<FantasyPlayerDTO> = this.getPlayerById(player.id);
+                        marketPlayersPromises.push(playerPromise);
+                    }
                 }
 
                 return Promise.all(marketPlayersPromises)

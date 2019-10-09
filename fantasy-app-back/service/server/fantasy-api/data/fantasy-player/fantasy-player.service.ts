@@ -53,7 +53,7 @@ export class FantasyPlayerService {
                 for (let player of teamPlayersData) {
                     const decoratedPlayer: FantasyPlayerDTO = await this.getPlayerById(player.id);
                     decoratedPlayer.playerTeamId = teamId;
-                    teamPlayersDecorated.push(decoratedPlayer);
+                    teamPlayersDecorated.push({...player, ...decoratedPlayer});
                 }
 
                 return teamPlayersDecorated;
